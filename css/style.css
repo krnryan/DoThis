@@ -1,0 +1,103 @@
+html, body {
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 100%;
+	font-family: "Amatic SC";
+}
+
+#brand {
+	margin-right: 10px;
+	height: 20px;
+	width: 20px;
+	background: url('../img/logo_sm_dothis.png') no-repeat;
+	background-size: contain;
+	float: left;
+}
+
+.navbar {
+	box-shadow: 1px 1px rgba(0, 0, 0, 0.1);
+	font-size: 1.5em;
+}
+
+.navbar-brand {
+	font-family: "Amatic SC";
+	font-size: 2em;
+}
+
+#main {
+	width: 100%;
+	height: 100%;
+	background-image: url('../img/bg.jpg');
+	background-size: cover;
+	background-position: center;
+	max-height: 500px;
+}
+
+#login_box {
+	width: 30%;
+	padding: 40px;
+	text-align: center;
+	background-color: rgba(255, 255, 255, 0.7);
+	position: relative;
+	top: 125px;
+	left: 50px;
+	border-radius: 10px;
+}
+
+.form-control {
+	margin-bottom: 10px;
+	text-align: center;
+	font-size: 1.5em;
+}
+
+@media screen and (max-width: 800px) {
+	#main {
+		max-height: 300px;
+	}
+}
+
+.main_text {
+	font-size: 5em;
+	margin-top: 50px;
+}
+
+span.quote {
+	font-size: 20px;
+	vertical-align: 35px;
+}
+
+#main, #one, #two, #three, #four {
+	margin: 0;
+	width: 100%;
+	height: 670px;
+}
+
+#two {
+	background-color: red;
+}
+
+#three {
+	background-color: blue;
+}
+
+#four {
+	background-color: black;
+}
+
+#btn-top {
+	width: 50px;
+	height: 50px;
+	background-color: rgba(0, 0, 0, 0.5);
+	position: fixed;
+	bottom: 10px;
+	right: 10px;
+	padding: 10px;
+	text-align: center;
+	font-size: 0.8em;
+	color: white;
+}
+
+#btn-top:hover {
+	background-color: rgba(0, 0, 0, 0.7);
+}
