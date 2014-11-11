@@ -1,3 +1,16 @@
+<?php 
+require_once 'backend/user_functions.php';
+
+if(isset($_POST['username']) AND isset($_POST['password'])) {
+	$result = login_user($_POST['username'], $_POST['password']);
+	if(is_array($result)) {
+			header('Location: dashboard.php');
+	} else {
+		false;
+	} 
+}
+?>
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -23,16 +36,16 @@
 	            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 	                <ul class="nav navbar-nav navbar-right">
 	                    <li class="page-scroll">
-	                        <a href="#one">What is do this</a>
+	                        <a href="#about">What is do this</a>
 	                    </li>
 	                    <li class="page-scroll">
-	                        <a href="#two">Features</a>
+	                        <a href="#features">Features</a>
 	                    </li>
 	                    <li class="page-scroll">
-	                        <a href="#three">Login/Register</a>
+	                        <a href="#register">Login/Register</a>
 	                    </li>
 	                    <li class="page-scroll">
-	                        <a href="#four">Contact us</a>
+	                        <a href="#contact">Contact us</a>
 	                    </li>
 	                </ul>
 	            </div>
@@ -46,24 +59,202 @@
 		</div>
 		
 		<div id="main">
-			<form role="form">
+			<form role="form" method="post">
 				<div id="login_box" class="form-group">
-				<h1>Let's do this!</h1>
-				<input type="text" class="form-control" placeholder="Username" />
-				<input type="password" class="form-control" placeholder="Password" />
-				<button class="btn btn-default" type="submit">Login</button>
+                    <?php 
+                    if (!isset($_SESSION['user'])){
+                        echo ('<h1>Let&apos;s do this!</h1>
+                        <input type="text" class="form-control" name="username" placeholder="Username" />
+                        <input type="password" class="form-control" name="password" placeholder="Password" />
+                        <button class="btn btn-default" type="submit">Login</button>');
+                    } else {
+                        echo ('<button id="logout" class="btn btn-default">Logout</button>
+                        <h2>OR</h2>
+                        <button id="to_dashboard" class="btn btn-default">Go back to dashboard</button>');
+                    }
+                    ?>
 				</div>
 			</form>
 		</div>
 		
-		<div id="one" class="container scrollpoint">
-			<h1 class="main_text text-center">Let's not do that. Let's <span class="fa quote fa-quote-left"></span>do this<span class="fa quote fa-quote-right"></span>!</h1>			
+		<div id="about" class="container scrollpoint">
+			<h1 class="main_text text-center">Let's not do that. Let's <span class="fa quote fa-quote-left"></span>do this<span class="fa quote fa-quote-right"></span>!</h1>
+            <!--Temporary code-->
+            <br><br><br><br><br><br><br><br><h1 class="text-center">Description of what Do This website is for!</h1>
 		</div>
-		<div id="two" class="container scrollpoint"></div>
-		<div id="three" class="container scrollpoint"></div>
-		<div id="four" class="container scrollpoint"></div>
-		
+		<div id="features" class="container scrollpoint">
+            <!--Temporary code-->
+            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><h1 class="text-center">Description of features!</h1>
+        </div>
+		<div id="register" class="container scrollpoint">
+            <div class="block">
+                <div class="centered">
+                    <div id="choice">
+                        <img src="img/logo_sm_dothis.png"/>
+                        <h1 class="text-center">I know now you are convinced</h1>
+                        <div id="button-container" class="text-center">
+                            <button type="button" id="btn-reg" class="btn btn-danger btn-lg">REGISTER</button>
+                        </div>
+                    </div>
+                    <div id="form-section">
+                        <form id="reg-form" class="navbar-form text-center" style="display: none" method="post">
+                            <h1 id="message">Let's Do This!</h1>
+                                <input type="text" class="form-control" id="fullname" placeholder="Full name"><br>
+                                <input type="text" class="form-control" id="username" placeholder="Username"><br>
+                                <input type="password" class="form-control" id="password" placeholder="Password"><br>
+                                <input type="email" class="form-control" id="email" placeholder="Email"><br>
+                            
+                            <button type="submit" class="btn btn-default">Create</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+		<div id="contact" class="container scrollpoint">
+            <!--Temporary code-->
+            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><h1 class="text-center">Contact us page!</h1>
+        </div>
 		<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+        <script>
+            $(function(){
+                $('#btn-reg').click(function(){
+                    $('#choice').animate({
+                        opacity: 0
+                    }, 500, function(){
+                        $('#choice').attr('style', 'display: none');
+                        $('#reg-form').attr('style', '');
+				    });
+                });
+                
+                $('#username').blur(function(){
+                    var user_field = $(this);
+                    var data = {
+                        'user_id': $(this).val()
+                    }
+                    $.post('ajax/unique_check.php', data,
+                        function(response){
+                            if(response == 2){
+                                user_field.removeClass('alert-danger').removeClass('alert-success');
+                                $('#message').html('Let&apos;s Do This!');
+                            }
+                            else if(response == 1) {
+                                user_field.removeClass('alert-danger').addClass('alert-success');
+                                $('#message').html('Let&apos;s Do This!');
+                            }  else {
+                                user_field.removeClass('alert-success').addClass('alert-danger');
+                                $('#message').html('That username is already in use!');
+                            }
+                        }
+                    );
+                });
+
+                $('#email').blur(function(){
+                    var user_field = $(this);
+                    var data = {
+                        'user_email': $(this).val()
+                    }
+                    $.post('ajax/unique_check.php', data,
+                        function(response){
+                            if(response == 2){
+                                user_field.removeClass('alert-danger').removeClass('alert-success');
+                                $('#message').html('Let&apos;s Do This!');
+                            }
+                            else if(response == 1) {
+                                user_field.removeClass('alert-danger').addClass('alert-success');
+                                $('#message').html('Let&apos;s Do This!');
+                            } else {
+                                user_field.removeClass('alert-success').addClass('alert-danger');
+                                $('#message').html('That email is already in use!');
+                            }
+                        }
+                    );
+                });
+                
+                $('#reg-form').submit(function(){
+                    var patt_fullname = /^[a-zA-Z]+/;
+                    var patt_username = /^[a-zA-Z0-9]{6,20}$/;
+                    var patt_password = /^[a-zA-Z0-9]{6,12}$/;
+                    var patt_password2 = /[A-Z]+/;
+                    var patt_password3 = /[0-9]+/;
+                    var patt_email = /^[a-zA-Z0-9\.]+@[a-zA-Z0-9]+\.[a-z]{2,4}$/;
+                    
+                    var fullname = $('#fullname').val();
+                    var username = $('#username').val();
+                    var password = $('#password').val();
+                    var email = $('#email').val();
+
+                    if (!patt_fullname.test(fullname)){
+                        alert('Fullname is invalid!');
+                        return false;
+                    }
+
+                    if (!patt_username.test(username)){
+                        alert('Username is invalid!');
+                        return false;
+                    }
+
+                    if (!patt_password.test(password)){
+                        alert('Password requires min 6, max 12 length!');
+                        return false;
+                    }
+
+                    if (!patt_password2.test(password)){
+                        alert('Password requires capitalized letter at least once!');
+                        return false;
+                    }
+
+                    if (!patt_password3.test(password)){
+                        alert('Password requires one number at least once!');
+                        return false;
+                    }
+
+                    if (!patt_email.test(email)){
+                        alert('Email is invalid!');
+                        return false;
+                    }
+                    
+                    //AJAX call
+                    var data = {
+                        'user_fullname': fullname,
+                        'user_id': username,
+                        'user_password': password,
+                        'user_email': email
+                    }
+
+                    $.post('ajax/registration.php', data, 
+                        function(response){
+                            if (response == 1) {
+                                $('#message').html('Member accepted!').animate({
+                                    opacity: 1
+                                }, 2000, function(){
+                                    $('#reg-form').each(function(){
+                                        this.reset();
+                                        location.href="#top";
+                                    });
+                                });
+
+                            } else {
+                                $('#message').html('Something went wrong :<');
+                            }
+                        }
+                    );
+
+                    return false;
+                });
+                
+                $('#to_dashboard').click(function(){
+                    window.location.href = 'dashboard.php';
+                    return false;
+                });
+                
+                $('#logout').click(function(){
+                    window.location.href = 'backend/logout.php';
+                    return false;
+                });
+            });
+        </script>
+		  
+
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 		<script src="js/jquery-ui.min.js"></script>
 		<script src="js/script.js"></script>
