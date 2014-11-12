@@ -15,8 +15,9 @@ if(isset($_POST['username']) AND isset($_POST['password'])) {
 <html>
 	<head>
 		<title>The Most Fun Way of Work</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="shortcut icon" type="image/png" href="img/logo_sm_dothis.png" />
-		<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+		<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
 		<link href='http://fonts.googleapis.com/css?family=Amatic+SC:700' rel='stylesheet' type='text/css'>
 		<link type="text/css" rel="stylesheet" href="css/style.css" />
@@ -32,7 +33,16 @@ if(isset($_POST['username']) AND isset($_POST['password'])) {
 	                    <span class="icon-bar"></span>
 	                </button>
 	                <a class="navbar-brand" href="#top"><div id="brand"></div>Do This</a>
+                    <div id="text-center" class="navbar-right"><p>
+                        <?php if (!isset($_SESSION['user'])){
+                                    echo ('Login here');
+                                } else {
+                                    echo ('Logout here');
+                                }
+                        ?>
+                    <i class="fa fa-share fa-fw"></i></p></div>
 	            </div>
+                
 	            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 	                <ul class="nav navbar-nav navbar-right">
 	                    <li class="page-scroll">
@@ -42,12 +52,31 @@ if(isset($_POST['username']) AND isset($_POST['password'])) {
 	                        <a href="#features">Features</a>
 	                    </li>
 	                    <li class="page-scroll">
-	                        <a href="#register">Login/Register</a>
+	                        <a href="#register">Register</a>
 	                    </li>
 	                    <li class="page-scroll">
 	                        <a href="#contact">Contact us</a>
 	                    </li>
 	                </ul>
+                    <div id="nav-hidden" class="nav navbar-nav navbar-right">
+                        <hr>
+                        <form role="form" method="post">
+                            <div class="form-group">
+                                <?php 
+                                if (!isset($_SESSION['user'])){
+                                    echo ('<h1>Let&apos;s do this!</h1>
+                                    <input type="text" class="form-control" name="username" placeholder="Username" />
+                                    <input type="password" class="form-control" name="password" placeholder="Password" />
+                                    <button class="btn btn-default" type="submit">Login</button>');
+                                } else {
+                                    echo ('<button id="logout_collapse" class="btn btn-default">Logout</button>
+                                    <h2>OR</h2>
+                                    <button id="to_dashboard_collapse" class="btn btn-default">Back to dashboard</button>');
+                                }
+                                ?>
+                            </div>
+                        </form>
+	                </div>
 	            </div>
 	        </div>
 	    </nav>
@@ -70,7 +99,7 @@ if(isset($_POST['username']) AND isset($_POST['password'])) {
                     } else {
                         echo ('<button id="logout" class="btn btn-default">Logout</button>
                         <h2>OR</h2>
-                        <button id="to_dashboard" class="btn btn-default">Go back to dashboard</button>');
+                        <button id="to_dashboard" class="btn btn-default">Back to dashboard</button>');
                     }
                     ?>
 				</div>
@@ -78,19 +107,14 @@ if(isset($_POST['username']) AND isset($_POST['password'])) {
 		</div>
 		
 		<div id="about" class="container scrollpoint">
-			<h1 class="main_text text-center">Let's not do that. Let's <span class="fa quote fa-quote-left"></span>do this<span class="fa quote fa-quote-right"></span>!</h1>
-            <!--Temporary code-->
-            <br><br><br><br><br><br><br><br><h1 class="text-center">Description of what Do This website is for!</h1>
+            <h1 class="main_text text-center">Let's not do that. Let's <span class="fa quote fa-quote-left"></span>do this<span class="fa quote fa-quote-right"></span>!</h1>
 		</div>
-		<div id="features" class="container scrollpoint">
-            <!--Temporary code-->
-            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><h1 class="text-center">Description of features!</h1>
-        </div>
+		<div id="features" class="container scrollpoint"></div>
 		<div id="register" class="container scrollpoint">
             <div class="block">
                 <div class="centered">
                     <div id="choice">
-                        <img src="img/logo_sm_dothis.png"/>
+                        <img class="img-responsive" alt="Responsive image" src="img/logo_sm_dothis.png"/>
                         <h1 class="text-center">I know now you are convinced</h1>
                         <div id="button-container" class="text-center">
                             <button type="button" id="btn-reg" class="btn btn-danger btn-lg">REGISTER</button>
@@ -111,8 +135,11 @@ if(isset($_POST['username']) AND isset($_POST['password'])) {
             </div>
         </div>
 		<div id="contact" class="container scrollpoint">
-            <!--Temporary code-->
-            <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><h1 class="text-center">Contact us page!</h1>
+            <div class="block">
+                <div class="centered">
+                    <h1 class="text-center">Contact us page!</h1>
+                </div>
+            </div>
         </div>
 		<script src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
         <script>
@@ -164,7 +191,7 @@ if(isset($_POST['username']) AND isset($_POST['password'])) {
                                 $('#message').html('Let&apos;s Do This!');
                             } else {
                                 user_field.removeClass('alert-success').addClass('alert-danger');
-                                $('#message').html('That email is already in use!');
+                                $('#message').html('That email is already in use');
                             }
                         }
                     );
@@ -184,33 +211,43 @@ if(isset($_POST['username']) AND isset($_POST['password'])) {
                     var email = $('#email').val();
 
                     if (!patt_fullname.test(fullname)){
-                        alert('Fullname is invalid!');
+                        $('#message').html('Please fill out your fullname');
                         return false;
+                    } else {
+                        $('#message').html('Let&apos;s Do This!');
                     }
 
                     if (!patt_username.test(username)){
-                        alert('Username is invalid!');
+                        $('#message').html('Username requires min 6, max 20 length');
                         return false;
+                    } else {
+                        $('#message').html('Let&apos;s Do This!');
                     }
 
                     if (!patt_password.test(password)){
-                        alert('Password requires min 6, max 12 length!');
+                        $('#message').html('Password requires min 6, max 12 length');
                         return false;
+                    } else {
+                        $('#message').html('Let&apos;s Do This!');
                     }
 
                     if (!patt_password2.test(password)){
-                        alert('Password requires capitalized letter at least once!');
+                        $('#message').html('Password requires at least one Cap letter');
                         return false;
                     }
 
                     if (!patt_password3.test(password)){
-                        alert('Password requires one number at least once!');
+                        $('#message').html('Password requires at least one number');
                         return false;
+                    } else {
+                        $('#message').html('Let&apos;s Do This!');
                     }
 
                     if (!patt_email.test(email)){
-                        alert('Email is invalid!');
+                        $('#message').html('Email is invalid');
                         return false;
+                    } else {
+                        $('#message').html('Let&apos;s Do This!');
                     }
                     
                     //AJAX call
@@ -224,13 +261,13 @@ if(isset($_POST['username']) AND isset($_POST['password'])) {
                     $.post('ajax/registration.php', data, 
                         function(response){
                             if (response == 1) {
-                                $('#message').html('Member accepted!').animate({
+                                $('#form-section').html('').html('<h1>Registering YOU</h1><i class="fa fa-spinner fa-spin fa-5x"></i>').animate({
                                     opacity: 1
                                 }, 2000, function(){
                                     $('#reg-form').each(function(){
                                         this.reset();
-                                        location.href="#top";
                                     });
+                                    location.href="dashboard.php";
                                 });
 
                             } else {
@@ -248,6 +285,16 @@ if(isset($_POST['username']) AND isset($_POST['password'])) {
                 });
                 
                 $('#logout').click(function(){
+                    window.location.href = 'backend/logout.php';
+                    return false;
+                });
+                
+                $('#to_dashboard_collapse').click(function(){
+                    window.location.href = 'dashboard.php';
+                    return false;
+                });
+                
+                $('#logout_collapse').click(function(){
                     window.location.href = 'backend/logout.php';
                     return false;
                 });

@@ -22,33 +22,27 @@ function add_user($fullname, $email, $username, $password)
     return mysql_error();
 }
 
-function add_role($user_id, $role_id) {
-	$insert_query_role = 'INSERT '.TBL_USER_ROLE_MAP.'(`user_id`,`role_id`)
-							VALUES(
-								"'.$user_id.'",
-								"'.$role_id.'")';
-    if($result = mysql_query($insert_query_role))
+function get_user($id = NULL)
+{
+    $select_query = 'SELECT user_id, fullname, username, email
+                      FROM ' . TBL_USERS;
+
+    if ($id !== NULL)
     {
-        return true;
+        $select_query .= ' WHERE `user_id`=' . (int)$id;
     }
-    return mysql_error();
-}
 
-function add_team($team_name, $team_description, $admin_id) {
-	$hashed_teamname = md5($team_name);
+    $select_query .= ' ORDER BY `user_id` ASC';
 
-    $insert_query_team = 'INSERT '.TBL_TEAMS.'(`team_id`, `team_name`, `team_description`, `admin_id`)
-                        VALUES(
-                        	"'.addslashes($hashed_teamname).'",
-                        	"'.addslashes($team_name).'",
-                            "'.addslashes($team_description).'",
-							"'.$admin_id.'")';
+    $result = mysql_query($select_query);
 
-    if($result = mysql_query($insert_query_team))
+    $users = array();
+    while ($row = mysql_fetch_assoc($result))
     {
-		return true;
+        $users[] = $row;
     }
-    return mysql_error();
+
+    return $users;
 }
 
 function unique_check($field, $value)

@@ -22,16 +22,20 @@ html, body {
 
 .navbar-brand {
 	font-family: "Amatic SC";
-	font-size: 2em;
+	font-size: 1.5em;
+}
+
+#nav-hidden {
+    display: none;
 }
 
 #main {
-	width: 100%;
-	height: 100%;
 	background-image: url('../img/bg.jpg');
 	background-size: cover;
 	background-position: center;
 	max-height: 500px;
+    height: 100%;
+    width: 100%;
 }
 
 #login_box {
@@ -45,21 +49,49 @@ html, body {
 	border-radius: 10px;
 }
 
+#text-center {
+    display: none;
+}
+
 .form-control {
 	margin-bottom: 10px;
 	text-align: center;
 	font-size: 1.5em;
 }
 
-@media screen and (max-width: 800px) {
-	#main {
-		max-height: 300px;
-	}
+@media (max-width: 767px) {
+    #login_box {
+        display: none;
+    }
+    
+    #text-center {
+        display: inline-block;
+        text-align: right;
+        float: right;
+    }
+    
+    .navbar-nav {
+        text-align: center;
+    }
+    
+    #nav-hidden {
+        display: block;
+    }
+    
+    .navbar-fixed-top .navbar-collapse, .navbar-fixed-bottom .navbar-collapse {
+        max-height: none;
+    }
+    
+    .form-control {
+        font-size: 1em;
+        width: 50%;
+        margin: 5px auto;
+    }
 }
 
 .main_text {
 	font-size: 5em;
-	margin-top: 50px;
+	margin-top: 20px;
 }
 
 span.quote {
@@ -67,10 +99,10 @@ span.quote {
 	vertical-align: 35px;
 }
 
-#main, #about, #features, #register, #contact {
-	margin: 0;
+#about, #features, #register, #contact, #general {
+	padding-top: 40px;
 	width: 100%;
-	height: 670px;
+	height: 100%;
 }
 
 #btn-top {
@@ -92,8 +124,7 @@ span.quote {
 
 .block {
     text-align: center;
-    margin: 13% auto;
-    height: 70%;
+    height: 100%;
 }
  
 .block:before {
@@ -115,4 +146,47 @@ span.quote {
 
 #reg-form input {
     width: 200px;
+}
+
+#proj_title {
+    width: 400px;
+}
+ 
+#description {
+ 	width: 400px;
+ 	height: 200px;
+ 	margin-bottom: 10px;
+}
+
+#project_list {
+    float: left;
+    margin-left: 20px;
+}
+
+#project_list ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+#new_project {
+    background-color: #F3C100;
+    border-radius: 10px;
+    cursor: pointer;
+    text-align: center;
+    padding: 5%;
+    float: left;
+}
+
+#message {
+    text-align: center;
+}
+
+.modal-body, .modal-footer {
+    text-align: center;
+}
+
+#general {
+    padding: 100px;
+	width: 100%;
+	height: 100%;
 }

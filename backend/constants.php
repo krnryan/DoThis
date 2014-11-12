@@ -9,8 +9,7 @@ define("DB_USER", "root");
 define("DB_PASS", "");
 define("DB_NAME", "dothis");
 define("TBL_USERS", "`users`");
-define("TBL_USER_ROLE_MAP", "`user_role_map`");
-define("TBL_TEAMS", "`teams`");
+define("TBL_PROJ", "`projects`");
 
 define("DIR_JS", "js");
 define("DIR_CSS", "css");
