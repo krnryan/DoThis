@@ -40,7 +40,7 @@ if(isset($_POST['username']) AND isset($_POST['password'])) {
                                     echo ('Logout here');
                                 }
                         ?>
-                    <i class="fa fa-share fa-fw"></i></p></div>
+                    <i class="fa fa-share fa-sm"></i></p></div>
 	            </div>
                 
 	            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">

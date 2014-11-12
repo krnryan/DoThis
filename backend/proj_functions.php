@@ -43,4 +43,20 @@ function get_proj($id = NULL)
 
     return $projects;
 }
+
+function get_proj_count($user_id = NULL)
+{
+    $select_query = 'SELECT COUNT(`proj_id`) AS `total`
+                      FROM ' . TBL_PROJ;
+
+    if($user_id !== NULL)
+    {
+        $select_query .= ' WHERE `admin_id`='.(int)$user_id;
+    }
+
+    $result = mysql_query($select_query);
+    $row = mysql_fetch_assoc($result);
+
+    return $row['total'];
+}
 ?>

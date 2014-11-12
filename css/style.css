@@ -17,7 +17,7 @@ html, body {
 
 .navbar {
 	box-shadow: 1px 1px rgba(0, 0, 0, 0.1);
-	font-size: 1.5em;
+	font-size: 1.4em;
 }
 
 .navbar-brand {
@@ -99,7 +99,7 @@ span.quote {
 	vertical-align: 35px;
 }
 
-#about, #features, #register, #contact, #general {
+#about, #features, #register, #contact {
 	padding-top: 40px;
 	width: 100%;
 	height: 100%;
@@ -158,23 +158,31 @@ span.quote {
  	margin-bottom: 10px;
 }
 
-#project_list {
-    float: left;
-    margin-left: 20px;
+.popover {
+    text-align: center;
+    z-index: 1;
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    width: inherit;
 }
 
-#project_list ul {
+.popover-title h2 {
+    margin: 0;
+}
+
+.popover-content ul {
     list-style-type: none;
     padding: 0;
 }
 
 #new_project {
+    height: 200px;
     background-color: #F3C100;
     border-radius: 10px;
     cursor: pointer;
     text-align: center;
-    padding: 5%;
     float: left;
+    padding: 30px;
 }
 
 #message {
@@ -188,5 +196,9 @@ span.quote {
 #general {
     padding: 100px;
 	width: 100%;
-	height: 100%;
+    height: 100%;
+}
+
+#listofproj {
+margin-top: 10px;
 }
