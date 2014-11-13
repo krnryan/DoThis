@@ -59,4 +59,38 @@ function get_proj_count($user_id = NULL)
 
     return $row['total'];
 }
+
+function update_proj($proj_id, $title, $description)
+{
+    global $db_link;
+
+    $data = array(
+        '`title` = "' . addslashes($title) . '"',
+        '`description` = "' . addslashes($description) . '"',
+    );
+
+    $insert_query = 'UPDATE ' . TBL_PROJ . '
+                        SET ' . implode(',', $data) . '
+                        WHERE `proj_id`=' . (int)$proj_id;
+
+    if($result = mysql_query($insert_query))
+    {
+		return TRUE;
+    }
+    return mysql_error();
+
+    return FALSE;
+}
+
+function delete_proj($id)
+{
+    $delete_query = 'DELETE FROM ' . TBL_PROJ . ' WHERE `proj_id`=' . (int)$id;
+    if ($result = mysql_query($delete_query))
+    {
+        return TRUE;
+    }
+
+    return FALSE;
+}
+
 ?>

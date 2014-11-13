@@ -89,7 +89,7 @@ if(isset($_POST['username']) AND isset($_POST['password'])) {
 		
 		<div id="main">
 			<form role="form" method="post">
-				<div id="login_box" class="form-group">
+				<div id="login_box" class="form-group centering">
                     <?php 
                     if (!isset($_SESSION['user'])){
                         echo ('<h1>Let&apos;s do this!</h1>
@@ -122,7 +122,7 @@ if(isset($_POST['username']) AND isset($_POST['password'])) {
                     </div>
                     <div id="form-section">
                         <form id="reg-form" class="navbar-form text-center" style="display: none" method="post">
-                            <h1 id="message">Let's Do This!</h1>
+                            <h1 id="message" class="centering">Let's Do This!</h1>
                                 <input type="text" class="form-control" id="fullname" placeholder="Full name"><br>
                                 <input type="text" class="form-control" id="username" placeholder="Username"><br>
                                 <input type="password" class="form-control" id="password" placeholder="Password"><br>

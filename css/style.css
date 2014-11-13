@@ -6,6 +6,10 @@ html, body {
 	font-family: "Amatic SC";
 }
 
+.centering {
+    text-align: center;
+}
+
 #brand {
 	margin-right: 10px;
 	height: 20px;
@@ -41,7 +45,6 @@ html, body {
 #login_box {
 	width: 30%;
 	padding: 40px;
-	text-align: center;
 	background-color: rgba(255, 255, 255, 0.7);
 	position: relative;
 	top: 125px;
@@ -148,11 +151,11 @@ span.quote {
     width: 200px;
 }
 
-#proj_title {
+#proj_title, #invite_email, #invite_subject, #edit_title {
     width: 400px;
 }
  
-#description {
+#description, #invite_msg, #edit_description {
  	width: 400px;
  	height: 200px;
  	margin-bottom: 10px;
@@ -176,7 +179,7 @@ span.quote {
 }
 
 #new_project {
-    height: 200px;
+    height: auto;
     background-color: #F3C100;
     border-radius: 10px;
     cursor: pointer;
@@ -185,20 +188,20 @@ span.quote {
     padding: 30px;
 }
 
-#message {
-    text-align: center;
-}
-
-.modal-body, .modal-footer {
-    text-align: center;
-}
-
 #general {
     padding: 100px;
 	width: 100%;
     height: 100%;
 }
 
-#listofproj {
-margin-top: 10px;
+#listofproj, #setting {
+    margin-top: 10px;
+}
+
+#briefcase {
+    font-size: 10em;
+}
+
+#space {
+    margin: 0 5%;
 }

@@ -5,7 +5,7 @@ require_once '../backend/proj_functions.php';
 	if( isset($_POST['proj_name']) AND 
 		isset($_POST['description']))
 	{
-		$result = add_proj($_POST['proj_name'], $_POST['description']);
+		$result = update_proj($_POST['proj_id'], $_POST['proj_name'], $_POST['description']);
 		
 		$response = $result;
 		

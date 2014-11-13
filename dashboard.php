@@ -94,19 +94,17 @@
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h1 id="message">Create new project</h1>
+                                <h1 id="message" class="centering">Create new project</h1>
                             </div>
-                            <div class="modal-body">
+                            <div class="modal-body centering">
                                 <div id="form-section" class="dash-form">
                                     <form id="proj-reg-form" class="navbar-form text-center" method="post">
-                                    <input type="text" class="form-control" id="proj_title" placeholder="Project title"><br>
-                                    <textarea type="text" class="form-control" id="description" placeholder="Short description of project"></textarea></textarea><br>
-                                </div>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="submit" class="btn btn-default">Create</button>
-                            </div>
+                                        <input type="text" class="form-control" id="proj_title" placeholder="Project title"><br>
+                                        <textarea type="text" class="form-control" id="description" placeholder="Short description of project"></textarea><br><hr>
+                                        <button type="submit" class="btn btn-default">Create</button>
                                     </form>
+                                </div>
+                            </div> 
                         </div>
                     </div>
                 </div>
@@ -147,14 +145,14 @@ $(function(){
             $('#message').html('Please fill out the title');
             return false;
         } else {
-            $('#message').html('Create project');
+            $('#message').html('Create new project');
         }
 
         if (!patt_description.test(description)){
             $('#message').html('Please fill out the description');
             return false;
         } else {
-            $('#message').html('Create project');
+            $('#message').html('Create new project');
         }
 
         //AJAX call
@@ -166,7 +164,7 @@ $(function(){
         $.post('ajax/proj_registration.php', data, 
             function(response){
                 if (response == 1) {
-                    $('#message').html('New project on the way');
+                    $('#message').html('New project is on its way');
                     $('.modal-body').html('').html('<i class="fa fa-spinner fa-spin fa-5x"></i>').animate({
                         opacity: 1
                         }, 2000, function(){
