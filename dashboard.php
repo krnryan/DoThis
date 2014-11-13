@@ -88,7 +88,7 @@
                         <i class="fa fa-folder-open-o fa-5x"></i>
                         <h1>NEW PROJECT</h1>
                     </div>
-                    <button id="listofproj" type="button" class="btn btn-default col-md-12" data-container="body" data-toggle="popover" data-placement="bottom" data-content="">Your projects</button>
+                    <button id="listofproj" type="button" class="btn btn-default col-md-12" data-container="body" data-toggle="popover" data-placement="bottom" data-content="">Your project list</button>
                 </div>
                 <div class="modal fade" id="basicModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
                     <div class="modal-dialog">
@@ -112,7 +112,14 @@
                 <div class="col-md-9">
                     <h1>Hello, <span style="font-size: 1.3em;"><?php echo $fullname; ?></span>.</h1>
                     <h1>Welcome to your dashboard!</h1>
-                    <h1>Good luck on your <span style="font-size: 1.3em;"><?php echo $count; ?></span> projects! :></h1>
+                    <?php
+                        if($count == 0){
+                            echo '<h1>You have no ongoing project.</h1>';
+                        } elseif($count == 1){
+                            echo '<h1>Good luck on your <span style="font-size: 1.3em;">'.$count.'</span> project! :></h1>';
+                        }else {
+                            echo '<h1>Good luck on your <span style="font-size: 1.3em;">'.$count.'</span> projects! :></h1>';
+                        } ?>
                 </div>
             </div>
         </div>

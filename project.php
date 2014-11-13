@@ -11,6 +11,34 @@ if (isset($_GET["id"]) && $_GET["id"]!="") {
 
 	$project = get_proj($proj_id);
     $users = get_user($_SESSION['user']['user_id']);
+
+    foreach($users as $user) {
+        $fullname = $user['fullname'];
+    }
+
+if (isset($_POST["msg"]) && isset($_POST["email"])) {
+    $to = $_POST["email"];
+    $subject = "Invitation to DoThis from ".$fullname;
+
+    $message = "
+    <html>
+        <head>
+            <title>HTML email</title>
+        </head>
+        <body>
+            <p>This email contains HTML Tags!</p>
+        </body>
+    </html>
+    ";
+
+    // Always set content-type when sending HTML email
+    $headers = "MIME-Version: 1.0" . "\r\n";
+    $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+    $headers .= "From: DoThis <".MAIL_FROM.">";
+
+    mail($to,$subject,$message,$headers);
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -86,13 +114,11 @@ if (isset($_GET["id"]) && $_GET["id"]!="") {
         <div id="general" class="container">
             <div class="row">
                 <div class="col-md-3">
+                    <button id="to_dashboard" type="button" class="btn btn-default col-md-12" onclick="location: dashboard.php"><span class="glyphicon glyphicon-hand-left"></span> Back to Dashboard</button>
                     <div id="new_project" class="col-md-12">
                         <span id="briefcase" class="glyphicon glyphicon-briefcase"></span>
+                        
                         <?php
-                            foreach($users as $user) {
-                                $fullname = $user['fullname'];
-                            }
-
                             foreach($project as $proj) {
                                 echo '<h1>Project '.$proj['title'].'</h1><hr>
                                     <h3>'.$proj['description'].'</h3>';
@@ -120,14 +146,13 @@ if (isset($_GET["id"]) && $_GET["id"]!="") {
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 id="message" class="centering">Invite people to work with you</h1>
+                    <h1 id="message" class="centering">Invite people to your project</h1>
                 </div>
                 <div class="modal-body centering">
                     <div id="form-section" class="dash-form">
                         <form id="proj-reg-form" class="navbar-form" method="post">
-                            <input type="text" class="form-control" id="invite_email" placeholder="Email address"><br>
-                            <input type="text" class="form-control" id="invite_subject" placeholder="Subject"><br>
-                            <textarea type="text" class="form-control" id="invite_msg" placeholder="Message"></textarea><br><hr>
+                            <input type="text" class="form-control" id="invite_email" name="email" placeholder="Email address"><br>
+                            <textarea type="text" class="form-control" id="invite_msg" name="msg" placeholder="Message"></textarea><br><hr>
                             <button type="submit" class="btn btn-default">SEND</button>
                         </form>
                     </div>
@@ -260,6 +285,11 @@ $(function(){
     
     $('#cancel').click(function(){
         $('#basicModal_delete').modal('toggle');
+    });
+    
+    $('#to_dashboard').click(function(){
+        window.location.href = 'dashboard.php';
+        return false;
     });
 
 });

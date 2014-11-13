@@ -151,7 +151,7 @@ span.quote {
     width: 200px;
 }
 
-#proj_title, #invite_email, #invite_subject, #edit_title {
+#proj_title, #invite_email, #edit_title {
     width: 400px;
 }
  
@@ -182,10 +182,13 @@ span.quote {
     height: auto;
     background-color: #F3C100;
     border-radius: 10px;
-    cursor: pointer;
     text-align: center;
     float: left;
     padding: 30px;
+}
+
+.cursor {
+    cursor: pointer;
 }
 
 #general {
@@ -194,8 +197,8 @@ span.quote {
     height: 100%;
 }
 
-#listofproj, #setting {
-    margin-top: 10px;
+#listofproj, #setting, #to_dashboard {
+    margin: 10px auto;
 }
 
 #briefcase {
