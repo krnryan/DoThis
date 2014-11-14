@@ -84,7 +84,7 @@
         <div id="general" class="container">
             <div class="row">
                 <div class="col-md-3">
-                    <div id="new_project" class="col-md-12">
+                    <div id="new_project" class="col-md-12 cursor">
                         <i class="fa fa-folder-open-o fa-5x"></i>
                         <h1>NEW PROJECT</h1>
                     </div>

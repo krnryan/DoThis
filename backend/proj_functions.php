@@ -5,11 +5,12 @@ require_once 'database.php';
 function add_proj($proj_name, $description) {
     $admin = $_SESSION['user']['user_id'];
 
-    $insert_query_proj = 'INSERT '.TBL_PROJ.'(`title`, `description`, `admin_id`)
+    $insert_query_proj = 'INSERT '.TBL_PROJ.'(`title`, `description`, `admin_id`, `created_ts`)
                         VALUES(
                         	"'.addslashes($proj_name).'",
                             "'.addslashes($description).'",
-							"'.$admin.'")';
+							"'.$admin.'",
+                            "'.time().'")';
 
     if($result = mysql_query($insert_query_proj))
     {

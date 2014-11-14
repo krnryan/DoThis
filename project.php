@@ -16,27 +16,50 @@ if (isset($_GET["id"]) && $_GET["id"]!="") {
         $fullname = $user['fullname'];
     }
 
+    foreach($project as $proj) {
+        $proj_title_col = $proj['title'];
+        $proj_desc_col = $proj['description'];
+        $proj_ts_col = $proj['created_ts'];
+    }
+
 if (isset($_POST["msg"]) && isset($_POST["email"])) {
-    $to = $_POST["email"];
-    $subject = "Invitation to DoThis from ".$fullname;
+    $email = $_POST["email"];
+    $trimmed_email = trim($email, " ");
+    $ind_emails = explode(",", $trimmed_email);
+    
+    foreach($ind_emails as $ind_email) {
+        $to = $ind_email;
 
-    $message = "
-    <html>
-        <head>
-            <title>HTML email</title>
-        </head>
-        <body>
-            <p>This email contains HTML Tags!</p>
-        </body>
-    </html>
-    ";
+        $subject = "Invitation to DoThis from ".$fullname;
 
-    // Always set content-type when sending HTML email
-    $headers = "MIME-Version: 1.0" . "\r\n";
-    $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-    $headers .= "From: DoThis <".MAIL_FROM.">";
+        $message = "
+        <html>
+            <head>
+                <title>Invitation from DoThis</title>
+            </head>
+            <body>
+                <div style='@import url(http://fonts.googleapis.com/css?family=Amatic+SC:400,700); width: 100%; height: 100%'>
+                    <div style='width: 500px; height: 500px; border: 2px solid #F3C100; margin: 0 auto; border-radius: 5px;'>
+                        <div style='width: 298px; height: 298px; margin: 50px auto 20px auto'>
+                            <img src='dothis.ryanmingyuchoi.com/img/logo_sm_dothis.png' />
+                        <div>
+                        <h1 style='text-align: center; font-family: Amatic SC; font-size: 60px; margin: 20px; color: black;'>Hello, there!</h1>
+                        <h2 style='text-align: center; font-family: Amatic SC; font-size: 30px; margin: 20px; color: black;'>".$fullname." wants you to join his project to work together!</h2><br>
 
-    mail($to,$subject,$message,$headers);
+                        <a href='dothis.ryanmingyuchoi.com'><h2 style='text-align: center; font-family: Amatic SC; font-size: 30px; margin: 10px;'>Accept</h2></a>
+                    </div>
+                </div>
+            </body>
+        </html>
+        ";
+
+        // Always set content-type when sending HTML email
+        $headers = "MIME-Version: 1.0" . "\r\n";
+        $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
+        $headers .= "From: DoThis <".MAIL_FROM.">";
+
+        mail($to,$subject,$message,$headers);
+    }
 }
 
 ?>
@@ -117,15 +140,8 @@ if (isset($_POST["msg"]) && isset($_POST["email"])) {
                     <button id="to_dashboard" type="button" class="btn btn-default col-md-12" onclick="location: dashboard.php"><span class="glyphicon glyphicon-hand-left"></span> Back to Dashboard</button>
                     <div id="new_project" class="col-md-12">
                         <span id="briefcase" class="glyphicon glyphicon-briefcase"></span>
-                        
-                        <?php
-                            foreach($project as $proj) {
-                                echo '<h1>Project '.$proj['title'].'</h1><hr>
-                                    <h3>'.$proj['description'].'</h3>';
-                                $proj_title_col = $proj['title'];
-                                $proj_desc_col = $proj['description'];
-                            }
-                        ?>
+                        <h1>Project <?php echo $proj_title_col ?></h1><hr>
+                        <h3><?php echo $proj_desc_col ?></h3>
                         <button type="submit" class="btn btn-default" style="display: none">Save changes</button>
                     </div>
                     <button id="setting" type="button" class="btn btn-default col-md-12" data-container="body" data-toggle="popover" data-placement="bottom" data-content=""><span class="glyphicon glyphicon-cog"></span> SETTING</button>
