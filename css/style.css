@@ -151,7 +151,7 @@ span.quote {
     width: 200px;
 }
 
-#proj_title, #invite_email, #edit_title {
+#proj_title, #invite_email, #invite_subject, #edit_title {
     width: 400px;
 }
  
@@ -207,4 +207,8 @@ span.quote {
 
 #space {
     margin: 0 5%;
+}
+
+.img-responsive {
+    display: inline;
 }

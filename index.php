@@ -109,7 +109,9 @@ if(isset($_POST['username']) AND isset($_POST['password'])) {
 		<div id="about" class="container scrollpoint">
             <h1 class="main_text text-center">Let's not do that. Let's <span class="fa quote fa-quote-left"></span>do this<span class="fa quote fa-quote-right"></span>!</h1>
 		</div>
+        
 		<div id="features" class="container scrollpoint"></div>
+        
 		<div id="register" class="container scrollpoint">
             <div class="block">
                 <div class="centered">
@@ -134,6 +136,7 @@ if(isset($_POST['username']) AND isset($_POST['password'])) {
                 </div>
             </div>
         </div>
+        
 		<div id="contact" class="container scrollpoint">
             <div class="block">
                 <div class="centered">
