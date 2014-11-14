@@ -2,7 +2,7 @@
 session_start();
 require_once 'database.php';
 
-function add_user($fullname, $email, $username, $password)
+function add_user($fullname, $email, $username, $password, $project_id = NULL)
 {
     global $db_link;
 	
@@ -14,6 +14,35 @@ function add_user($fullname, $email, $username, $password)
                             "'.addslashes($username).'",
                             "'.addslashes($email).'",
                             "'.addslashes($hashed_password).'")';
+
+    if($result = mysql_query($insert_query))
+    {
+        if($project_id !==NULL){
+            add_user_proj($project_id, (int)mysql_insert_id());
+        };
+		return true;
+    }
+    return mysql_error();
+}
+
+function add_user_proj($project_id, $user_id, $is_admin = NULL)
+{
+    global $db_link;
+	
+	$hashed_password = sha1($password);
+    
+    if ($is_admin !== NULL)
+    {
+        $is_admin = 1;
+    } else {
+        $is_admin = 0;
+    }
+
+    $insert_query = 'INSERT '.TBL_USER_PROJ.'(`project_id`, `user_id`, `is_admin`)
+                        VALUES(
+                        	"'.addslashes($project_id).'",
+                            "'.addslashes($user_id).'",
+                            "'.addslashes($is_admin).'")';
 
     if($result = mysql_query($insert_query))
     {
@@ -41,7 +70,7 @@ function get_user($id = NULL)
     {
         $users[] = $row;
     }
-
+    
     return $users;
 }
 

@@ -7,7 +7,7 @@ require_once '../backend/user_functions.php';
 		isset($_POST['user_password']) AND 
 		isset($_POST['user_email']))
 	{
-		$result = add_user($_POST['user_fullname'], $_POST['user_email'], $_POST['user_id'], $_POST['user_password']);
+		$result = add_user($_POST['user_fullname'], $_POST['user_email'], $_POST['user_id'], $_POST['user_password'], $_POST['project_id']);
 		
 		$response = $result;
 	}

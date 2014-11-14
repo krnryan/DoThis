@@ -134,6 +134,133 @@ require_once 'backend/invite_function.php';
                         $('#reg-form').attr('style', '');
 				    });
                 });
+                
+                $('#username').blur(function(){
+                    var user_field = $(this);
+                    var data = {
+                        'user_id': $(this).val()
+                    }
+                    $.post('ajax/unique_check.php', data,
+                        function(response){
+                            if(response == 2){
+                                user_field.removeClass('alert-danger').removeClass('alert-success');
+                                $('#message').html('Let&apos;s Do This!');
+                            }
+                            else if(response == 1) {
+                                user_field.removeClass('alert-danger').addClass('alert-success');
+                                $('#message').html('Let&apos;s Do This!');
+                            }  else {
+                                user_field.removeClass('alert-success').addClass('alert-danger');
+                                $('#message').html('That username is already in use!');
+                            }
+                        }
+                    );
+                });
+
+                $('#email').blur(function(){
+                    var user_field = $(this);
+                    var data = {
+                        'user_email': $(this).val()
+                    }
+                    $.post('ajax/unique_check.php', data,
+                        function(response){
+                            if(response == 2){
+                                user_field.removeClass('alert-danger').removeClass('alert-success');
+                                $('#message').html('Let&apos;s Do This!');
+                            }
+                            else if(response == 1) {
+                                user_field.removeClass('alert-danger').addClass('alert-success');
+                                $('#message').html('Let&apos;s Do This!');
+                            } else {
+                                user_field.removeClass('alert-success').addClass('alert-danger');
+                                $('#message').html('That email is already in use');
+                            }
+                        }
+                    );
+                });
+                
+                $('#reg-form').submit(function(){
+                    var patt_fullname = /^[a-zA-Z]+/;
+                    var patt_username = /^[a-zA-Z0-9]{6,20}$/;
+                    var patt_password = /^[a-zA-Z0-9]{6,12}$/;
+                    var patt_password2 = /[A-Z]+/;
+                    var patt_password3 = /[0-9]+/;
+                    var patt_email = /^[a-zA-Z0-9\.]+@[a-zA-Z0-9]+\.[a-z]{2,4}$/;
+                    
+                    var fullname = $('#fullname').val();
+                    var username = $('#username').val();
+                    var password = $('#password').val();
+                    var email = $('#email').val();
+
+                    if (!patt_fullname.test(fullname)){
+                        $('#message').html('Please fill out your fullname');
+                        return false;
+                    } else {
+                        $('#message').html('Let&apos;s Do This!');
+                    }
+
+                    if (!patt_username.test(username)){
+                        $('#message').html('Username requires min 6, max 20 length');
+                        return false;
+                    } else {
+                        $('#message').html('Let&apos;s Do This!');
+                    }
+
+                    if (!patt_password.test(password)){
+                        $('#message').html('Password requires min 6, max 12 length');
+                        return false;
+                    } else {
+                        $('#message').html('Let&apos;s Do This!');
+                    }
+
+                    if (!patt_password2.test(password)){
+                        $('#message').html('Password requires at least one Cap letter');
+                        return false;
+                    }
+
+                    if (!patt_password3.test(password)){
+                        $('#message').html('Password requires at least one number');
+                        return false;
+                    } else {
+                        $('#message').html('Let&apos;s Do This!');
+                    }
+
+                    if (!patt_email.test(email)){
+                        $('#message').html('Email is invalid');
+                        return false;
+                    } else {
+                        $('#message').html('Let&apos;s Do This!');
+                    }
+                    
+                    //AJAX call
+                    var data = {
+                        'user_fullname': fullname,
+                        'user_id': username,
+                        'user_password': password,
+                        'user_email': email,
+                        'project_id': <?php echo $project_id ?>,
+                    }
+
+                    $.post('ajax/registration.php', data, 
+                        function(response){
+                            if (response == 1) {
+                                $('#form-section').html('').html('<h1>Registering YOU</h1><i class="fa fa-spinner fa-spin fa-5x"></i>').animate({
+                                    opacity: 1
+                                }, 2000, function(){
+                                    $('#reg-form').each(function(){
+                                        this.reset();
+                                    });
+                                    location.href="dashboard.php";
+                                });
+
+                            } else {
+                                $('#message').html('Something went wrong :<');
+                            }
+                        }
+                    );
+
+                    return false;
+                });
             });
     </script>
     </body>
