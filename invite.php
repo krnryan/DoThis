@@ -3,8 +3,9 @@ require_once 'backend/proj_functions.php';
 require_once 'backend/user_functions.php';
 require_once 'backend/invite_function.php';
 
-    if (isset($_GET["id"]) && !empty($_GET["id"])) {
+    if (isset($_GET["id"]) && !empty($_GET["id"]) && isset($_GET["email"])) {
             $invite_id = $_GET["id"];
+            $invite_email = $_GET["email"];
         } else {
             die("No page specified!");
         }
@@ -16,7 +17,6 @@ require_once 'backend/invite_function.php';
     }
 
     foreach($invt_result as $invt_info){
-        $invite_id = $invt_info['invite_id'];
         $admin_id = $invt_info['admin_id'];
         $project_id = $invt_info['project_id'];
         $project_title = $invt_info['title'];
@@ -114,9 +114,9 @@ require_once 'backend/invite_function.php';
                                 <input type="text" class="form-control" id="fullname" placeholder="Full name"><br>
                                 <input type="text" class="form-control" id="username" placeholder="Username"><br>
                                 <input type="password" class="form-control" id="password" placeholder="Password"><br>
-                                <input type="email" class="form-control" id="email" placeholder="Email"><br>
+                                <input type="email" class="form-control" id="email" placeholder="Email" value="<?php echo $invite_email ?>" readonly><br>
                             
-                            <button type="submit" class="btn btn-default">Create</button>
+                            <button type="submit" class="btn btn-default">JOIN</button>
                         </form>
                     </div>
                 </div>
@@ -250,6 +250,7 @@ require_once 'backend/invite_function.php';
                                     $('#reg-form').each(function(){
                                         this.reset();
                                     });
+                                    <?php delete_invitation($invite_id) ?>
                                     location.href="dashboard.php";
                                 });
 

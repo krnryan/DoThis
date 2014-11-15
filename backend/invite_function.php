@@ -26,7 +26,7 @@ function confirm_invitation($id)
                       FROM ' . TBL_INVT.' i';
     $select_query .= ' JOIN ' . TBL_PROJ . ' p
                       ON p.`proj_id` = i.`project_id`';
-    $select_query .= ' WHERE i.`created_ts`="' . addslashes($id).'"';
+    $select_query .= ' WHERE i.`created_ts`="' . addslashes($id) .'"';
     
     $result = mysql_query($select_query);
     if(mysql_num_rows($result) == 0)
@@ -43,4 +43,14 @@ function confirm_invitation($id)
     };
 }
 
+function delete_invitation($hashed_id)
+{
+    $delete_query = 'DELETE FROM ' . TBL_INVT . ' WHERE `created_ts`="' .  addslashes($hashed_id) .'"';
+    if ($result = mysql_query($delete_query))
+    {
+        return TRUE;
+    }
+
+    return FALSE;
+}
 ?>
