@@ -47,6 +47,23 @@ function get_proj($id = NULL)
     return $projects;
 }
 
+function confirm_project($proj_id, $session_id)
+{
+    $select_query = 'SELECT *
+                      FROM ' . TBL_USER_PROJ .
+    $select_query .= ' WHERE `project_id`="' . addslashes($proj_id) .'" AND `user_id`="' . addslashes($session_id) . '"';
+    
+    $result = mysql_query($select_query);
+
+    $projects = array();
+    while ($row = mysql_fetch_assoc($result))
+    {
+        $projects[] = $row;
+    }
+
+    return $projects;
+}
+
 function get_proj_count($user_id = NULL)
 {
     $select_query = 'SELECT COUNT(`project_id`) AS `total`

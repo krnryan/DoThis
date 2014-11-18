@@ -111,7 +111,8 @@ require_once 'backend/invite_function.php';
                             <h1 class="centering">You are about to join project<br>
                                 <span style="font-size: 2em"><?php echo $project_title ?></span></h1>
                             <h1 id="message" class="centering">Let's Do This!</h1>
-                                <input type="text" class="form-control" id="fullname" placeholder="Full name"><br>
+                                <input type="text" class="form-control" id="firstname" placeholder="First name"><br>
+                                <input type="text" class="form-control" id="lastname" placeholder="Last name"><br>
                                 <input type="text" class="form-control" id="username" placeholder="Username"><br>
                                 <input type="password" class="form-control" id="password" placeholder="Password"><br>
                                 <input type="email" class="form-control" id="email" placeholder="Email" value="<?php echo $invite_email ?>" readonly><br>
@@ -180,20 +181,29 @@ require_once 'backend/invite_function.php';
                 });
                 
                 $('#reg-form').submit(function(){
-                    var patt_fullname = /^[a-zA-Z]+/;
+                    var patt_firstname = /^[a-zA-Z]+/;
+                    var patt_lastname = /^[a-zA-Z]+/;
                     var patt_username = /^[a-zA-Z0-9]{6,20}$/;
                     var patt_password = /^[a-zA-Z0-9]{6,12}$/;
                     var patt_password2 = /[A-Z]+/;
                     var patt_password3 = /[0-9]+/;
                     var patt_email = /^[a-zA-Z0-9\.]+@[a-zA-Z0-9]+\.[a-z]{2,4}$/;
                     
-                    var fullname = $('#fullname').val();
+                    var firstname = $('#firstname').val();
+                    var lastname = $('#lastname').val();
                     var username = $('#username').val();
                     var password = $('#password').val();
                     var email = $('#email').val();
 
-                    if (!patt_fullname.test(fullname)){
-                        $('#message').html('Please fill out your fullname');
+                    if (!patt_firstname.test(firstname)){
+                        $('#message').html('Please fill out your firstname');
+                        return false;
+                    } else {
+                        $('#message').html('Let&apos;s Do This!');
+                    }
+                    
+                    if (!patt_lastname.test(lastname)){
+                        $('#message').html('Please fill out your lastname');
                         return false;
                     } else {
                         $('#message').html('Let&apos;s Do This!');
@@ -234,7 +244,8 @@ require_once 'backend/invite_function.php';
                     
                     //AJAX call
                     var data = {
-                        'user_fullname': fullname,
+                        'user_firstname': firstname,
+                        'user_lastname': lastname,
                         'user_id': username,
                         'user_password': password,
                         'user_email': email,

@@ -2,15 +2,16 @@
 session_start();
 require_once 'database.php';
 
-function add_user($fullname, $email, $username, $password, $project_id = NULL)
+function add_user($firstname, $lastname, $email, $username, $password, $project_id = NULL)
 {
     global $db_link;
 	
 	$hashed_password = sha1($password);
 
-    $insert_query = 'INSERT '.TBL_USERS.'(`fullname`, `username`, `email`, `password`)
+    $insert_query = 'INSERT '.TBL_USERS.'(`firstname`, `lastname`, `username`, `email`, `password`)
                         VALUES(
-                        	"'.addslashes($fullname).'",
+                        	"'.addslashes($firstname).'",
+                            "'.addslashes($lastname).'",
                             "'.addslashes($username).'",
                             "'.addslashes($email).'",
                             "'.addslashes($hashed_password).'")';
@@ -53,7 +54,7 @@ function add_user_proj($project_id, $user_id, $is_admin = NULL)
 
 function get_user($id = NULL)
 {
-    $select_query = 'SELECT user_id, fullname, username, email
+    $select_query = 'SELECT user_id, firstname, lastname, username, email
                       FROM ' . TBL_USERS;
 
     if ($id !== NULL)

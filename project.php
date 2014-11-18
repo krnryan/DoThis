@@ -11,10 +11,11 @@ if (isset($_GET["id"]) && !empty($_GET["id"])) {
 	}
 
 	$project = get_proj($proj_id);
+    $project_confirm = confirm_project($proj_id, $_SESSION['user']['user_id']);
     $users = get_user($_SESSION['user']['user_id']);
 
     foreach($users as $user) {
-        $fullname = $user['fullname'];
+        $firstname = $user['firstname'];
     }
 
     foreach($project as $proj) {
@@ -22,6 +23,11 @@ if (isset($_GET["id"]) && !empty($_GET["id"])) {
         $proj_desc_col = $proj['description'];
         $proj_ts_col = $proj['created_ts'];
     }
+
+    if(empty($project_confirm)) {
+        die ('<h1>Page not found!</h1>');
+    }
+
 
 if (isset($_POST["msg"]) && isset($_POST["email"])) {
     $email = $_POST["email"];
@@ -32,7 +38,7 @@ if (isset($_POST["msg"]) && isset($_POST["email"])) {
         $invt_num = add_invitation($proj_id);
         $to = $ind_email;
 
-        $subject = "Invitation to DoThis from ".$fullname;
+        $subject = "Invitation to DoThis from ".$firstname;
 
         $message = "
         <html>
@@ -46,7 +52,7 @@ if (isset($_POST["msg"]) && isset($_POST["email"])) {
                             <img src='dothis.ryanmingyuchoi.com/img/logo_sm_dothis.png' />
                         <div>
                         <h1 style='text-align: center; font-family: Amatic SC; font-size: 60px; margin: 20px; color: black;'>Hello, there!</h1>
-                        <h2 style='text-align: center; font-family: Amatic SC; font-size: 30px; margin: 20px; color: black;'>".$fullname." wants you to join his project to work together!</h2><br>
+                        <h2 style='text-align: center; font-family: Amatic SC; font-size: 30px; margin: 20px; color: black;'>".$firstname." wants you to join his project to work together!</h2><br>
 
                         <a href='http://dothis.ryanmingyuchoi.com/invite.php?email=".$to."&id=".$invt_num."'><h2 style='text-align: center; font-family: Amatic SC; font-size: 30px; margin: 10px;'>Accept</h2></a>
                     </div>

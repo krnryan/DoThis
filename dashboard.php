@@ -4,7 +4,7 @@
 
     $users = get_user($_SESSION['user']['user_id']);
     foreach($users as $user) {
-        $fullname = $user['fullname'];
+        $firstname = $user['firstname'];
     }
 
     $projects = get_proj();
@@ -110,7 +110,7 @@
                 </div>
             
                 <div class="col-md-9">
-                    <h1>Hello, <span style="font-size: 1.3em;"><?php echo $fullname; ?></span>.</h1>
+                    <h1>Hello, <span style="font-size: 1.3em;"><?php echo $firstname; ?></span>.</h1>
                     <h1>Welcome to your dashboard!</h1>
                     <?php
                         if($count == 0){
@@ -126,9 +126,13 @@
     <div id="project_list" style="display: none">
         <ul id="proj_list">
         <?php
-            foreach($projects as $project){
-                echo '<li><a href="project.php?id='.$project['proj_id'].'">'.$project['title'].'</a></li>';
-        }
+            if($count == 0){
+                echo '<h1>EMPTY</h1>';
+            } else {
+                foreach($projects as $project){
+                    echo '<li><a href="project.php?id='.$project['proj_id'].'">'.$project['title'].'</a></li>';
+                }
+            }
         ?>
         </ul>
     </div>
