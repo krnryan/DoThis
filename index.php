@@ -1,31 +1,4 @@
-<?php 
-require_once 'backend/user_functions.php';
-
-if (isset($_POST["email"]) && isset($_POST["subject"]) && isset($_POST["msg"])) {
-    $email = $_POST["email"];
-    $to = MAIL_TO;
-    $subject = $_POST["subject"];
-
-    $message = "
-    <html>
-        <head>
-            <title>Invitation from DoThis</title>
-        </head>
-        <body>
-            <p>".$_POST["msg"]."</p>
-        </body>
-    </html>
-    ";
-
-    // Always set content-type when sending HTML email
-    $headers = "MIME-Version: 1.0" . "\r\n";
-    $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-    $headers .= "From: DoThis User<".$email.">";
-
-    mail($to,$subject,$message,$headers);
-}
-
-?>
+<?php require_once 'backend/user_functions.php' ?>
 
 <!DOCTYPE html>
 <html>
@@ -197,20 +170,21 @@ if (isset($_POST["email"]) && isset($_POST["subject"]) && isset($_POST["msg"])) 
             <div class="modal-dialog">
                 <div class="modal-content">
                     <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                    <div class="modal-header">
-                        <h1 id="message" class="centering">Say "Hello" to Ryan!</h1>
-                        
-                    </div>
-                    <div class="modal-body centering">
-                        <div id="form-section" class="dash-form">
-                            <form id="email-form" class="navbar-form text-center" method="post">
-                                <input type="text" class="form-control" id="email_title" name="email" placeholder="Your email"><br>
-                                <input type="text" class="form-control" id="email_title" name="subject" placeholder="Subject"><br>
-                                <textarea type="text" class="form-control" id="description" name="msg" placeholder="Say something"></textarea><br><hr>
-                                <button type="submit" class="btn btn-default">"HELLO"</button>
-                            </form>
+                    <div id="email-form-section">
+                        <div class="modal-header">
+                            <h1 id="email_message" class="centering">Say "Hello" to Ryan!</h1>
                         </div>
-                    </div> 
+                        <div class="modal-body centering">
+                            <div class="dash-form">
+                                <form id="email-form" class="navbar-form text-center" method="post">
+                                    <input type="text" class="form-control" id="email_email" placeholder="Your email"><br>
+                                    <input type="text" class="form-control" id="email_subject" placeholder="Subject"><br>
+                                    <textarea type="text" class="form-control" id="email_msg" placeholder="Say something"></textarea><br><hr>
+                                    <button type="submit" class="btn btn-default">"HELLO"</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -360,6 +334,64 @@ if (isset($_POST["email"]) && isset($_POST["subject"]) && isset($_POST["msg"])) 
 
                             } else {
                                 $('#message').html('Something went wrong :<');
+                            }
+                        }
+                    );
+
+                    return false;
+                });
+                
+                $('#email-form').submit(function(){
+                    var patt_email = /^[a-zA-Z0-9\.]+@[a-zA-Z0-9]+\.[a-z]{2,4}$/;
+                    var patt_subject = /^[a-zA-Z]+/;
+                    var patt_msg = /^[a-zA-Z]+/;
+                    
+                    var email = $('#email_email').val();
+                    var subject = $('#email_subject').val();
+                    var msg = $('#email_msg').val();
+                    
+                    if (!patt_email.test(email)){
+                        $('#email_message').html('Email is invalid');
+                        return false;
+                    } else {
+                        $('#email_message').html('Say "Hello" to Ryan!');
+                    }
+                    
+                    if (!patt_subject.test(subject)){
+                        $('#email_message').html('Please fill out the subject');
+                        return false;
+                    } else {
+                        $('#email_message').html('Say "Hello" to Ryan!');
+                    }
+                    
+                    if (!patt_msg.test(msg)){
+                        $('#email_message').html('Please fill out the message');
+                        return false;
+                    } else {
+                        $('#email_message').html('Say "Hello" to Ryan!');
+                    }
+                    
+                    //AJAX call
+                    var data = {
+                        'email_email': email,
+                        'email_subject': subject,
+                        'email_msg': msg,
+                    }
+
+                    $.post('ajax/email_from_user.php', data, 
+                        function(response){
+                            if (response == 1) {
+                                $('#email-form-section').html('').html('<div class="centering"><h1>Saying Hi to Ryan</h1><i class="fa fa-spinner fa-spin fa-5x"></i></div>').animate({
+                                    opacity: 1
+                                }, 2000, function(){
+                                    $('#email-form').each(function(){
+                                        this.reset();
+                                    });
+                                    location.href="dashboard.php";
+                                });
+
+                            } else {
+                                $('#email_message').html('Something went wrong :<');
                             }
                         }
                     );

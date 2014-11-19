@@ -28,50 +28,6 @@ if (isset($_GET["id"]) && !empty($_GET["id"])) {
         die ('<h1>Page not found!</h1>');
     }
 
-
-if (isset($_POST["msg"]) && isset($_POST["email"])) {
-    $email = $_POST["email"];
-    $body = $_POST["msg"];
-    $trimmed_email = trim($email, " ");
-    $ind_emails = explode(",", $trimmed_email);
-    
-    foreach($ind_emails as $ind_email) {
-        $invt_num = add_invitation($proj_id);
-        $to = $ind_email;
-
-        $subject = "Invitation to DoThis from ".$firstname;
-
-        $message = "
-        <html>
-            <head>
-                <title>Invitation from DoThis</title>
-            </head>
-            <body>
-                <div style='@import url(http://fonts.googleapis.com/css?family=Amatic+SC:400,700); width: 100%; height: 100%'>
-                    <div style='width: 500px; height: 500px; border: 2px solid #F3C100; margin: 0 auto; border-radius: 5px;'>
-                        <div style='width: 298px; height: 298px; margin: 50px auto 20px auto'>
-                            <img src='dothis.ryanmingyuchoi.com/img/logo_sm_dothis.png' />
-                        <div>
-                        <h1 style='text-align: center; font-family: Amatic SC; font-size: 60px; margin: 20px; color: black;'>Hello, there!</h1>
-                        <h2 style='text-align: center; font-family: Amatic SC; font-size: 30px; margin: 20px; color: black;'>".$firstname." wants you to join his/her project to work together!</h2><br>
-                        <h2 style='text-align: center; font-family: Amatic SC; font-size: 30px; margin: 20px; color: black;'>''".$body."''</h2><br>
-
-                        <a style='text-decoration: none; color: white;' href='http://dothis.ryanmingyuchoi.com/invite.php?email=".$to."&id=".$invt_num."'><div style='background-color: #F3C100; height: 40px; border-radius: 5px;'><h2 style='text-align: center; font-family: Amatic SC; font-size: 30px; margin: 10px;'>Accept</h2></div></a>
-                    </div>
-                </div>
-            </body>
-        </html>
-        ";
-
-        // Always set content-type when sending HTML email
-        $headers = "MIME-Version: 1.0" . "\r\n";
-        $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-        $headers .= "From: DoThis <".MAIL_FROM.">";
-
-        mail($to,$subject,$message,$headers);
-    }
-}
-
 ?>
 
 <!DOCTYPE html>
@@ -171,16 +127,18 @@ if (isset($_POST["msg"]) && isset($_POST["email"])) {
     <div class="modal fade" id="basicModal_invite" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h1 id="message" class="centering">Invite people to your project</h1>
-                </div>
-                <div class="modal-body centering">
-                    <div id="form-section" class="dash-form">
-                        <form id="proj-reg-form" class="navbar-form" method="post">
-                            <input type="text" class="form-control" id="invite_email" name="email" placeholder="Email address"><br>
-                            <textarea type="text" class="form-control" id="invite_msg" name="msg" placeholder="Message"></textarea><br><hr>
-                            <button type="submit" class="btn btn-default">SEND</button>
-                        </form>
+                <div id="email-form-section">
+                    <div class="modal-header">
+                        <h1 id="email_message" class="centering">Invite people to your project</h1>
+                    </div>
+                    <div class="modal-body centering">
+                        <div id="form-section" class="dash-form">
+                            <form id="invitation-form" class="navbar-form" method="post">
+                                <input type="text" class="form-control" id="email_email" name="email" placeholder="Email address (separate each email with comma)"><br>
+                                <textarea type="text" class="form-control" id="email_msg" name="msg" placeholder="Message"></textarea><br><hr>
+                                <button type="submit" class="btn btn-default">SEND</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -307,6 +265,56 @@ $(function(){
             }
         );
         return false;         
+    });
+    
+    $('#invitation-form').submit(function(){
+        var patt_email = /^(\s*,?\s*[0-9a-zA-Z]([-.\w]*[0-9a-zA-Z])*@([0-9a-zA-Z][-\w]*[0-9a-zA-Z]\.)+[a-zA-Z]{2,9})+\s*$/;
+        var patt_msg = /^[a-zA-Z]+/;
+
+        var email = $('#email_email').val();
+        var msg = $('#email_msg').val();
+
+        if (!patt_email.test(email)){
+            $('#email_message').html('Email is invalid');
+            return false;
+        } else {
+            $('#email_message').html('Invite people to your project');
+        }
+
+        if (!patt_msg.test(msg)){
+            $('#email_message').html('Please fill out the message');
+            return false;
+        } else {
+            $('#email_message').html('Invite people to your project');
+        }
+
+        //AJAX call
+        var data = {
+            'email_email': email,
+            'email_msg': msg,
+            'firstname': '<?php echo $firstname ?>',
+            'project_id': <?php echo $proj_id ?>,
+        }
+
+        $.post('ajax/invitation_email.php', data, 
+            function(response){
+                if (response == 1) {
+                    $('#email-form-section').html('').html('<div class="centering"><h1>Sending invitation email</h1><i class="fa fa-spinner fa-spin fa-5x"></i></div>').animate({
+                        opacity: 1
+                    }, 2000, function(){
+                        $('#email-form').each(function(){
+                            this.reset();
+                        });
+                        location.reload();
+                    });
+
+                } else {
+                    $('#email_message').html('Something went wrong :<');
+                }
+            }
+        );
+
+        return false;
     });
     
     $('#cancel').click(function(){
