@@ -261,8 +261,18 @@ require_once 'backend/invite_function.php';
                                     $('#reg-form').each(function(){
                                         this.reset();
                                     });
-                                    <?php delete_invitation($invite_id) ?>
-                                    location.href="dashboard.php";
+                                    var data = {
+                                        'invitation_id': '<?php echo $_GET["id"] ?>',
+                                    }
+
+                                    $.post('ajax/invitation_delete.php', data, 
+                                        function(response){
+                                            if (response == 1) {
+                                                location.href="dashboard.php";
+                                            } else {
+                                                $('#message').html('Something went wrong :<');
+                                            }
+                                    });
                                 });
 
                             } else {

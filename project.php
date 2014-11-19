@@ -31,6 +31,7 @@ if (isset($_GET["id"]) && !empty($_GET["id"])) {
 
 if (isset($_POST["msg"]) && isset($_POST["email"])) {
     $email = $_POST["email"];
+    $body = $_POST["msg"];
     $trimmed_email = trim($email, " ");
     $ind_emails = explode(",", $trimmed_email);
     
@@ -52,9 +53,10 @@ if (isset($_POST["msg"]) && isset($_POST["email"])) {
                             <img src='dothis.ryanmingyuchoi.com/img/logo_sm_dothis.png' />
                         <div>
                         <h1 style='text-align: center; font-family: Amatic SC; font-size: 60px; margin: 20px; color: black;'>Hello, there!</h1>
-                        <h2 style='text-align: center; font-family: Amatic SC; font-size: 30px; margin: 20px; color: black;'>".$firstname." wants you to join his project to work together!</h2><br>
+                        <h2 style='text-align: center; font-family: Amatic SC; font-size: 30px; margin: 20px; color: black;'>".$firstname." wants you to join his/her project to work together!</h2><br>
+                        <h2 style='text-align: center; font-family: Amatic SC; font-size: 30px; margin: 20px; color: black;'>''".$body."''</h2><br>
 
-                        <a href='http://dothis.ryanmingyuchoi.com/invite.php?email=".$to."&id=".$invt_num."'><h2 style='text-align: center; font-family: Amatic SC; font-size: 30px; margin: 10px;'>Accept</h2></a>
+                        <a style='text-decoration: none; color: white;' href='http://dothis.ryanmingyuchoi.com/invite.php?email=".$to."&id=".$invt_num."'><div style='background-color: #F3C100; height: 40px; border-radius: 5px;'><h2 style='text-align: center; font-family: Amatic SC; font-size: 30px; margin: 10px;'>Accept</h2></div></a>
                     </div>
                 </div>
             </body>
