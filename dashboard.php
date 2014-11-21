@@ -5,6 +5,7 @@
     $users = get_user($_SESSION['user']['user_id']);
     foreach($users as $user) {
         $firstname = $user['firstname'];
+        $profile_pic = $user['picture'];
     }
 
     $projects = get_proj();
@@ -22,7 +23,7 @@
         <link type="text/css" rel="stylesheet" href="css/style.css" />
     </head>
     <body>
-        <nav class="navbar navbar-default navbar-fixed-top">
+        <nav class="navbar navbar-default navbar-fixed-top project_nav">
             <div class="container">
                 <div class="navbar-header page-scroll">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -80,49 +81,54 @@
                 </div>
             </div>
         </nav>
-
-        <div id="general" class="container">
-            <div class="row">
-                <div class="col-md-3">
-                    <div id="new_project" class="col-md-12 cursor">
-                        <i class="fa fa-folder-open-o fa-5x"></i>
-                        <h1>NEW PROJECT</h1>
-                    </div>
-                    <button id="listofproj" type="button" class="btn btn-default col-md-12" data-container="body" data-toggle="popover" data-placement="bottom" data-content="">Your project list</button>
-                </div>
-                <div class="modal fade" id="basicModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h1 id="message" class="centering">Create new project</h1>
-                            </div>
-                            <div class="modal-body centering">
-                                <div id="form-section" class="dash-form">
-                                    <form id="proj-reg-form" class="navbar-form text-center" method="post">
-                                        <input type="text" class="form-control" id="proj_title" placeholder="Project title"><br>
-                                        <textarea type="text" class="form-control" id="description" placeholder="Short description of project"></textarea><br><hr>
-                                        <button type="submit" class="btn btn-default">Create</button>
-                                    </form>
-                                </div>
-                            </div> 
-                        </div>
-                    </div>
-                </div>
-            
-                <div class="col-md-9">
+        <div id="project-panel">
+            <div class="block">
+                <div class="centered">
                     <h1>Hello, <span style="font-size: 1.3em;"><?php echo $firstname; ?></span>.</h1>
+                    <div id="profile-picture centered">
+                        <img style="border: 8px solid black" class="img-responsive img-circle" src="img/profile/<?php echo $profile_pic ?>"/>
+                    </div>
+                    <div>
                     <h1>Welcome to your dashboard!</h1>
-                    <?php
-                        if($count == 0){
-                            echo '<h1>You have no ongoing project.</h1>';
-                        } elseif($count == 1){
-                            echo '<h1>Good luck on your <span style="font-size: 1.3em;">'.$count.'</span> project! :></h1>';
-                        }else {
-                            echo '<h1>Good luck on your <span style="font-size: 1.3em;">'.$count.'</span> projects! :></h1>';
-                        } ?>
+                        <?php
+                            if($count == 0){
+                                echo '<h1>You have no ongoing project.</h1>';
+                            } elseif($count == 1){
+                                echo '<h1>Good luck on your <span style="font-size: 1.3em;">'.$count.'</span> project! :></h1>';
+                            }else {
+                                echo '<h1>Good luck on your <span style="font-size: 1.3em;">'.$count.'</span> projects! :></h1>';
+                            } ?>
+                    </div>
                 </div>
             </div>
         </div>
+        
+        
+        <div id="dash-panel">
+            <button id="new_project" type="button" class="btn btn-default col-md-6"><i class="fa fa-plus-circle fa-5x"></i><h1>NEW PROJECT</h1></button>
+            <button id="listofproj" type="button" class="btn btn-default col-md-6" data-container="body" data-toggle="popover" data-placement="bottom" data-content=""><i class="fa fa-folder-open-o fa-5x"></i><h1>Project list</h1></button>
+            <div class="modal fade" id="basicModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <div class="modal-header">
+                            <h1 id="message" class="centering">Create new project</h1>
+                        </div>
+                        <div class="modal-body centering">
+                            <div id="form-section" class="dash-form">
+                                <form id="proj-reg-form" class="navbar-form text-center" method="post">
+                                    <input type="text" class="form-control" id="proj_title" placeholder="Project title"><br>
+                                    <textarea type="text" class="form-control" id="description" placeholder="Short description of project"></textarea><br><hr>
+                                    <button type="submit" class="btn btn-default">Create</button>
+                                </form>
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
     <div id="project_list" style="display: none">
         <ul id="proj_list">
         <?php

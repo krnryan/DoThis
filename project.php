@@ -3,6 +3,7 @@ require_once 'backend/sessions.php';
 require_once 'backend/proj_functions.php';
 require_once 'backend/user_functions.php';
 require_once 'backend/invite_function.php';
+require_once 'backend/task_functions.php';
 
 if (isset($_GET["id"]) && !empty($_GET["id"])) {
 		$proj_id = $_GET["id"];
@@ -163,14 +164,19 @@ if (isset($_GET["id"]) && !empty($_GET["id"])) {
                 }
                 echo ('
                     ">
-                        <div id="add_task">
-                            <div id="fit_two" class="centered">
-                                <i class="fa fa-plus"></i>
-                                <h4>New task</h4>
-                            </div>
+                    <div id="add_task">
+                        <div id="fit_two" class="centered">
+                            <i class="fa fa-plus"></i>
+                            <h4>New task</h4>
                         </div>
-                    </a>
-                </div>
+                    </div>
+                </a>
+                ');
+                $tasks = get_task($user_info['user_id']);
+                foreach($tasks as $task) {
+                    echo ('<div id="task"><div id="fit_three" class="centered"><h1>'.$task['task_title'].'</h1><p>'.$task['task_list'].'</p></div></div>');
+                }
+            echo ('</div>
         ');
         }
         ?>
@@ -495,6 +501,56 @@ $(function(){
 
     $('.newtask').click(function(){
         $('#basicModal_new_task').modal('toggle');
+    });
+    
+    $('#task-form').submit(function(){
+        var patt_title = /^[a-zA-Z]+/;
+        var patt_list = /^[a-zA-Z]+/;
+
+        var title = $('#task_title').val();
+        var list = $('#task_list').val();
+
+        if (!patt_title.test(title)){
+            $('#task_message').html('Please fill out the title');
+            return false;
+        } else {
+            $('#task_message').html('Create new task!');
+        }
+
+        if (!patt_list.test(list)){
+            $('#task_message').html('Please fill out the list');
+            return false;
+        } else {
+            $('#task_message').html('Create new task!');
+        }
+
+        //AJAX call
+        var data = {
+            'project_id': <?php echo $proj_id ?>,
+            'user_id': <?php echo $current_user ?>,
+            'task_title': title,
+            'task_list': list,
+        }
+
+        $.post('ajax/task_registration.php', data, 
+            function(response){
+                if (response == 1) {
+                    $('#task-form-section').html('').html('<div class="centering"><h1>Creating task</h1><i class="fa fa-spinner fa-spin fa-5x"></i></div>').animate({
+                        opacity: 1
+                    }, 2000, function(){
+                        $('#task-form').each(function(){
+                            this.reset();
+                        });
+                        location.reload();
+                    });
+
+                } else {
+                    $('#task_message').html('Something went wrong :<');
+                }
+            }
+        );
+
+        return false;
     });
 });
 

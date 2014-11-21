@@ -55,7 +55,7 @@ function add_user_proj($project_id, $user_id, $is_admin = NULL)
 
 function get_user($id = NULL)
 {
-    $select_query = 'SELECT user_id, firstname, lastname, username, email
+    $select_query = 'SELECT user_id, firstname, lastname, username, email, picture
                       FROM ' . TBL_USERS;
 
     if ($id !== NULL)

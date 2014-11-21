@@ -168,3 +168,19 @@
 [21-Nov-2014 15:50:14 UTC] PHP Parse error:  syntax error, unexpected '}' in /home/krnryan/public_html/dothis/project.php on line 177
 [21-Nov-2014 15:50:16 UTC] PHP Parse error:  syntax error, unexpected '}' in /home/krnryan/public_html/dothis/project.php on line 177
 [21-Nov-2014 15:50:17 UTC] PHP Parse error:  syntax error, unexpected '}' in /home/krnryan/public_html/dothis/project.php on line 177
+[21-Nov-2014 20:58:16 UTC] PHP Parse error:  syntax error, unexpected ')', expecting ',' or ';' in /home/krnryan/public_html/dothis/project.php on line 179
+[21-Nov-2014 20:58:17 UTC] PHP Parse error:  syntax error, unexpected ')', expecting ',' or ';' in /home/krnryan/public_html/dothis/project.php on line 179
+[21-Nov-2014 20:58:18 UTC] PHP Parse error:  syntax error, unexpected ')', expecting ',' or ';' in /home/krnryan/public_html/dothis/project.php on line 179
+[21-Nov-2014 20:58:18 UTC] PHP Parse error:  syntax error, unexpected ')', expecting ',' or ';' in /home/krnryan/public_html/dothis/project.php on line 179
+[21-Nov-2014 20:58:19 UTC] PHP Parse error:  syntax error, unexpected ')', expecting ',' or ';' in /home/krnryan/public_html/dothis/project.php on line 179
+[21-Nov-2014 20:58:20 UTC] PHP Parse error:  syntax error, unexpected ')', expecting ',' or ';' in /home/krnryan/public_html/dothis/project.php on line 179
+[21-Nov-2014 20:58:20 UTC] PHP Parse error:  syntax error, unexpected ')', expecting ',' or ';' in /home/krnryan/public_html/dothis/project.php on line 179
+[21-Nov-2014 20:58:46 UTC] PHP Parse error:  syntax error, unexpected ')', expecting ',' or ';' in /home/krnryan/public_html/dothis/project.php on line 180
+[21-Nov-2014 20:58:47 UTC] PHP Parse error:  syntax error, unexpected ')', expecting ',' or ';' in /home/krnryan/public_html/dothis/project.php on line 180
+[21-Nov-2014 20:58:48 UTC] PHP Parse error:  syntax error, unexpected ')', expecting ',' or ';' in /home/krnryan/public_html/dothis/project.php on line 180
+[21-Nov-2014 20:58:48 UTC] PHP Parse error:  syntax error, unexpected ')', expecting ',' or ';' in /home/krnryan/public_html/dothis/project.php on line 180
+[21-Nov-2014 20:58:49 UTC] PHP Parse error:  syntax error, unexpected ')', expecting ',' or ';' in /home/krnryan/public_html/dothis/project.php on line 180
+[21-Nov-2014 20:58:49 UTC] PHP Parse error:  syntax error, unexpected ')', expecting ',' or ';' in /home/krnryan/public_html/dothis/project.php on line 180
+[21-Nov-2014 20:58:50 UTC] PHP Parse error:  syntax error, unexpected ')', expecting ',' or ';' in /home/krnryan/public_html/dothis/project.php on line 180
+[21-Nov-2014 20:58:57 UTC] PHP Parse error:  syntax error, unexpected ')', expecting ',' or ';' in /home/krnryan/public_html/dothis/project.php on line 180
+[21-Nov-2014 21:07:07 UTC] PHP Parse error:  syntax error, unexpected ''' (T_ENCAPSED_AND_WHITESPACE) in /home/krnryan/public_html/dothis/project.php on line 128
