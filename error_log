@@ -131,3 +131,40 @@
 [21-Nov-2014 11:07:09 UTC] PHP Parse error:  syntax error, unexpected '?>' in /home/krnryan/public_html/dothis/project.php on line 131
 [21-Nov-2014 11:07:20 UTC] PHP Parse error:  syntax error, unexpected '?>' in /home/krnryan/public_html/dothis/project.php on line 130
 [21-Nov-2014 11:07:21 UTC] PHP Parse error:  syntax error, unexpected '?>' in /home/krnryan/public_html/dothis/project.php on line 130
+[21-Nov-2014 12:02:09 UTC] PHP Parse error:  syntax error, unexpected ''<button id="logout" class="bt' (T_ENCAPSED_AND_WHITESPACE) in /home/krnryan/public_html/dothis/index.php on line 111
+[21-Nov-2014 12:23:17 UTC] PHP Parse error:  syntax error, unexpected '$user_infos' (T_VARIABLE) in /home/krnryan/public_html/dothis/project.php on line 20
+[21-Nov-2014 12:23:18 UTC] PHP Parse error:  syntax error, unexpected '$user_infos' (T_VARIABLE) in /home/krnryan/public_html/dothis/project.php on line 20
+[21-Nov-2014 12:23:19 UTC] PHP Parse error:  syntax error, unexpected '$user_infos' (T_VARIABLE) in /home/krnryan/public_html/dothis/project.php on line 20
+[21-Nov-2014 12:23:20 UTC] PHP Parse error:  syntax error, unexpected '$user_infos' (T_VARIABLE) in /home/krnryan/public_html/dothis/project.php on line 20
+[21-Nov-2014 15:35:00 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/krnryan/public_html/dothis/project.php on line 498
+[21-Nov-2014 15:35:01 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/krnryan/public_html/dothis/project.php on line 498
+[21-Nov-2014 15:35:02 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/krnryan/public_html/dothis/project.php on line 498
+[21-Nov-2014 15:35:07 UTC] PHP Parse error:  syntax error, unexpected end of file in /home/krnryan/public_html/dothis/project.php on line 498
+[21-Nov-2014 15:40:45 UTC] PHP Parse error:  syntax error, unexpected 'if' (T_IF), expecting ',' or ';' in /home/krnryan/public_html/dothis/project.php on line 159
+[21-Nov-2014 15:40:47 UTC] PHP Parse error:  syntax error, unexpected 'if' (T_IF), expecting ',' or ';' in /home/krnryan/public_html/dothis/project.php on line 159
+[21-Nov-2014 15:40:50 UTC] PHP Parse error:  syntax error, unexpected 'if' (T_IF), expecting ',' or ';' in /home/krnryan/public_html/dothis/project.php on line 159
+[21-Nov-2014 15:40:59 UTC] PHP Parse error:  syntax error, unexpected 'if' (T_IF), expecting ',' or ';' in /home/krnryan/public_html/dothis/project.php on line 159
+[21-Nov-2014 15:41:04 UTC] PHP Parse error:  syntax error, unexpected 'if' (T_IF), expecting ',' or ';' in /home/krnryan/public_html/dothis/project.php on line 159
+[21-Nov-2014 15:41:18 UTC] PHP Parse error:  syntax error, unexpected 'if' (T_IF), expecting ',' or ';' in /home/krnryan/public_html/dothis/project.php on line 159
+[21-Nov-2014 15:41:19 UTC] PHP Parse error:  syntax error, unexpected ')', expecting ',' or ';' in /home/krnryan/public_html/dothis/project.php on line 174
+[21-Nov-2014 15:41:20 UTC] PHP Parse error:  syntax error, unexpected ')', expecting ',' or ';' in /home/krnryan/public_html/dothis/project.php on line 174
+[21-Nov-2014 15:41:21 UTC] PHP Parse error:  syntax error, unexpected ')', expecting ',' or ';' in /home/krnryan/public_html/dothis/project.php on line 174
+[21-Nov-2014 15:41:22 UTC] PHP Parse error:  syntax error, unexpected ')', expecting ',' or ';' in /home/krnryan/public_html/dothis/project.php on line 174
+[21-Nov-2014 15:41:22 UTC] PHP Parse error:  syntax error, unexpected ')', expecting ',' or ';' in /home/krnryan/public_html/dothis/project.php on line 174
+[21-Nov-2014 15:41:23 UTC] PHP Parse error:  syntax error, unexpected ')', expecting ',' or ';' in /home/krnryan/public_html/dothis/project.php on line 174
+[21-Nov-2014 15:41:24 UTC] PHP Parse error:  syntax error, unexpected ')', expecting ',' or ';' in /home/krnryan/public_html/dothis/project.php on line 174
+[21-Nov-2014 15:41:27 UTC] PHP Parse error:  syntax error, unexpected ')', expecting ',' or ';' in /home/krnryan/public_html/dothis/project.php on line 174
+[21-Nov-2014 15:49:38 UTC] PHP Parse error:  syntax error, unexpected '}' in /home/krnryan/public_html/dothis/project.php on line 177
+[21-Nov-2014 15:49:40 UTC] PHP Parse error:  syntax error, unexpected '}' in /home/krnryan/public_html/dothis/project.php on line 177
+[21-Nov-2014 15:49:41 UTC] PHP Parse error:  syntax error, unexpected '}' in /home/krnryan/public_html/dothis/project.php on line 177
+[21-Nov-2014 15:49:42 UTC] PHP Parse error:  syntax error, unexpected '}' in /home/krnryan/public_html/dothis/project.php on line 177
+[21-Nov-2014 15:49:42 UTC] PHP Parse error:  syntax error, unexpected '}' in /home/krnryan/public_html/dothis/project.php on line 177
+[21-Nov-2014 15:49:47 UTC] PHP Parse error:  syntax error, unexpected '}' in /home/krnryan/public_html/dothis/project.php on line 177
+[21-Nov-2014 15:49:48 UTC] PHP Parse error:  syntax error, unexpected '}' in /home/krnryan/public_html/dothis/project.php on line 177
+[21-Nov-2014 15:49:49 UTC] PHP Parse error:  syntax error, unexpected '}' in /home/krnryan/public_html/dothis/project.php on line 177
+[21-Nov-2014 15:50:09 UTC] PHP Parse error:  syntax error, unexpected '}' in /home/krnryan/public_html/dothis/project.php on line 177
+[21-Nov-2014 15:50:12 UTC] PHP Parse error:  syntax error, unexpected '}' in /home/krnryan/public_html/dothis/project.php on line 177
+[21-Nov-2014 15:50:13 UTC] PHP Parse error:  syntax error, unexpected '}' in /home/krnryan/public_html/dothis/project.php on line 177
+[21-Nov-2014 15:50:14 UTC] PHP Parse error:  syntax error, unexpected '}' in /home/krnryan/public_html/dothis/project.php on line 177
+[21-Nov-2014 15:50:16 UTC] PHP Parse error:  syntax error, unexpected '}' in /home/krnryan/public_html/dothis/project.php on line 177
+[21-Nov-2014 15:50:17 UTC] PHP Parse error:  syntax error, unexpected '}' in /home/krnryan/public_html/dothis/project.php on line 177

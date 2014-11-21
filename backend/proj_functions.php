@@ -49,7 +49,7 @@ function get_proj($id = NULL)
 
 function get_users_eachproj($id)
 {
-    $select_query = 'SELECT u.*
+    $select_query = 'SELECT u.*, upm.*
                       FROM ' . TBL_USERS . ' u';
 
     $select_query .= ' JOIN ' . TBL_USER_PROJ . ' upm
@@ -127,12 +127,25 @@ function update_proj($proj_id, $title, $description)
 function delete_proj($id)
 {
     $delete_query = 'DELETE FROM ' . TBL_PROJ . ' WHERE `proj_id`=' . (int)$id;
+    
     if ($result = mysql_query($delete_query))
     {
-        return TRUE;
+        $second = delete_map($id);
+		return $second;
     }
 
     return FALSE;
 }
 
+function delete_map($id)
+{
+    $delete_query = 'DELETE FROM ' . TBL_USER_PROJ . ' WHERE `project_id`=' . (int)$id;
+    
+    if ($result = mysql_query($delete_query))
+    {
+		return true;
+    }
+    
+    return FALSE;
+}
 ?>

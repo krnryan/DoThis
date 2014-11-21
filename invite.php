@@ -275,7 +275,7 @@ require_once 'backend/invite_function.php';
                                 });
                                 $('#big-form').html('').html('<h1>Registering YOU</h1><i class="fa fa-spinner fa-spin fa-5x"></i>').animate({
                                     opacity: 1
-                                }, 500, function(){
+                                }, 200, function(){
                                     var data = {
                                         'invitation_id': '<?php echo $invite_id ?>',
                                     }

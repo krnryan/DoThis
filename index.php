@@ -124,7 +124,7 @@
                     <h1 class="text-center">Simple. Fun. Easy.</h1>
                     <h1 class="text-center">The most fun way of managing projects and tasks!</h1>
                     <h1 class="text-center">Website is still under construction.</h1>
-                    <h1 class="text-center">It started as a portfolio, but planning to expand ideas into real application</h1>
+                    <h1 class="text-center">It started as a portfolio, but planning to expand ideas into a real application</h1>
                 </div>
             </div>
 		</div>
@@ -180,7 +180,7 @@
                     <h1 class="text-center" style="font-size: 4em; color: #F3C100;">Ryan Mingyu Choi</h1>
                     <h1 class="text-center">Junior full-stack web developer</h1>
                     <h1 class="text-center">HTML5, CSS3, Bootstrap, Javascript, jQuery, PHP, mySQL, Git, GitHub, Photoshop</h1>
-                    <h1 class="text-center">(Currently looking for an opportunities)</h1>
+                    <h1 class="text-center">(Currently looking for opportunities)</h1>
                     <button id="say_hi" type="submit" class="btn btn-default" style="font-size: 3em"><i class="fa fa-comment"></i><br/>Say "Hello"</button>
                 </div>
             </div>

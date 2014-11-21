@@ -45,7 +45,7 @@ if (isset($_GET["id"]) && !empty($_GET["id"])) {
         <link type="text/css" rel="stylesheet" href="css/style.css" />
     </head>
     <body>
-        <nav class="navbar navbar-default navbar-fixed-top">
+        <nav class="navbar navbar-default navbar-fixed-top project_nav">
             <div class="container">
                 <div class="navbar-header page-scroll">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
@@ -125,21 +125,52 @@ if (isset($_GET["id"]) && !empty($_GET["id"])) {
         <?php
         foreach($user_infos as $user_info) {
         echo ('
-            <div id="worker-panel">
-                <div id="worker-panel-left">
-                    <div class="fit">
-                        <span style="font-size: 1.2em">'.$user_info['firstname'].'</span>
-                        ');
-                            if ($user_info['picture'] == ''){
-                                echo ('<br><i class="fa fa-user fa-4x"></i>');
-                            } else {
-                                echo ('<i class="fa-stack fa-3x"><img class="fa-stack-1x img-responsive img-circle" src="img/profile/'.$user_info['picture'].'"/>');
-                            }
-                        echo ('
-                        </i>
+            <div id="panel">
+                <div id="worker-panel">
+                    <div id="worker-panel-left">
+                        <div class="fit">
+                            <span id="user_name" style="font-size: 1.2em">'.$user_info['firstname'].'</span>
+                            ');
+                                if ($user_info['picture'] == ''){
+                                    echo ('<br><i class="fa fa-user fa-4x"></i>');
+                                } else {
+                                    echo ('<i class="fa-stack fa-3x"><img class="fa-stack-1x img-responsive img-circle" src="img/profile/'.$user_info['picture'].'"/>');
+                                }
+                            echo ('
+                            </i>
+                        </div>
                     </div>
+                    <div id="worker-panel-right">
+                        <div class="fit">
+                            <p style="font-size: 1.2em">');
+                                if ($user_info['is_admin'] == 1) {
+                                    echo ('ADMIN');
+                                } else {
+                                    echo ('MEMBER');
+                                }
+                            echo ('
+                            </p>
+                            <a class="cursor emailtomem" style="color: black"><i class="fa fa-envelope fa-2x"></i></a>
+                        </div>
+                    </div>
+                    <p id="member_email" style="display: none">'.$user_info['email'].'</p>
                 </div>
-            </div>
+                <a class="cursor newtask" style="color: black;');
+                if($user_info['user_id'] == $current_user){
+                    echo (' ');
+                } else {
+                    echo ('visibility: hidden');
+                }
+                echo ('
+                    ">
+                        <div id="add_task">
+                            <div id="fit_two" class="centered">
+                                <i class="fa fa-plus"></i>
+                                <h4>New task</h4>
+                            </div>
+                        </div>
+                    </a>
+                </div>
         ');
         }
         ?>
@@ -207,6 +238,52 @@ if (isset($_GET["id"]) && !empty($_GET["id"])) {
                         <button id="delete" class="btn btn-success">Go ahead!</button>
                         <span id="space"></span>
                         <button id="cancel" class="btn btn-danger">No way!</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        
+    <div class="modal fade" id="basicModal_email" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <div id="email-form-section-two">
+                    <div class="modal-header">
+                        <h1 id="email_message" class="centering">Say "Hello" to <span id="mem_name"></span></h1>
+                    </div>
+                    <div class="modal-body centering">
+                        <div class="dash-form">
+                            <form id="email-form" class="navbar-form text-center" method="post">
+                                <input type="text" class="form-control" id="email_from" value="<?php echo $_SESSION['user']['email'] ?>" readonly><br>
+                                <input type="text" class="form-control" id="email_to" readonly><br>
+                                <input type="text" class="form-control" id="email_subject" placeholder="Subject"><br>
+                                <textarea type="text" class="form-control" id="email_msg_two" placeholder="Say something"></textarea><br><hr>
+                                <button type="submit" class="btn btn-default">"HELLO"</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+        
+    <div class="modal fade" id="basicModal_new_task" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <div id="task-form-section">
+                    <div class="modal-header">
+                        <h1 id="task_message" class="centering">Create new task!</h1>
+                    </div>
+                    <div class="modal-body centering">
+                        <div class="dash-form">
+                            <form id="task-form" class="navbar-form text-center" method="post">
+                                <input type="text" class="form-control" id="task_title" placeholder="Task title"><br>
+                                <textarea type="text" class="form-control" id="task_list" placeholder="To do list"></textarea><br><hr>
+                                <button type="submit" class="btn btn-default">CREATE</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -351,11 +428,74 @@ $(function(){
         $('#basicModal_delete').modal('toggle');
     });
     
+    $('.emailtomem').click(function(){
+        var name = $(this).parent().parent().parent().find('#user_name').html();
+        var email = $(this).parent().parent().parent().find('#member_email').html();
+        $('#basicModal_email').modal('toggle');
+        $('#basicModal_email').find('#mem_name').html(name);
+        $('#basicModal_email').find('#email_to').attr('value', email);
+    });
+    
     $('#to_dashboard').click(function(){
         window.location.href = 'dashboard.php';
         return false;
     });
+    
+    $('#email-form').submit(function(){
+        var patt_subject = /^[a-zA-Z]+/;
+        var patt_msg = /^[a-zA-Z]+/;
+        
+        var email_from = $('#email_from').val();
+        var subject = $('#email_subject').val();
+        var msg = $('#email_msg_two').val();
+        var email_to = $('#email_to').val();
 
+        if (!patt_subject.test(subject)){
+            $('#email_message').html('Please fill out the subject');
+            return false;
+        } else {
+            $('#email_message').html('Say "Hello"!');
+        }
+
+        if (!patt_msg.test(msg)){
+            $('#email_message').html('Please fill out the message');
+            return false;
+        } else {
+            $('#email_message').html('Say "Hello"!');
+        }
+
+        //AJAX call
+        var data = {
+            'email_email': email_from,
+            'email_subject': subject,
+            'email_msg': msg,
+            'email_to': email_to,
+        }
+
+        $.post('ajax/email_btw_user.php', data, 
+            function(response){
+                if (response == 1) {
+                    $('#email-form-section-two').html('').html('<div class="centering"><h1>Saying Hi</h1><i class="fa fa-spinner fa-spin fa-5x"></i></div>').animate({
+                        opacity: 1
+                    }, 2000, function(){
+                        $('#email-form').each(function(){
+                            this.reset();
+                        });
+                        $('#basicModal_email').modal('toggle');
+                    });
+
+                } else {
+                    $('#email_message').html('Something went wrong :<');
+                }
+            }
+        );
+
+        return false;
+    });
+
+    $('.newtask').click(function(){
+        $('#basicModal_new_task').modal('toggle');
+    });
 });
 
 </script>
