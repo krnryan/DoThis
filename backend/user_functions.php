@@ -2,19 +2,20 @@
 session_start();
 require_once 'database.php';
 
-function add_user($firstname, $lastname, $email, $username, $password, $project_id = NULL)
+function add_user($firstname, $lastname, $email, $username, $password, $project_id = NULL, $picture = '')
 {
     global $db_link;
 	
 	$hashed_password = sha1($password);
 
-    $insert_query = 'INSERT '.TBL_USERS.'(`firstname`, `lastname`, `username`, `email`, `password`)
+    $insert_query = 'INSERT '.TBL_USERS.'(`firstname`, `lastname`, `username`, `email`, `password`, `picture`)
                         VALUES(
                         	"'.addslashes($firstname).'",
                             "'.addslashes($lastname).'",
                             "'.addslashes($username).'",
                             "'.addslashes($email).'",
-                            "'.addslashes($hashed_password).'")';
+                            "'.addslashes($hashed_password).'",
+                            "'.addslashes($picture).'")';
 
     if($result = mysql_query($insert_query))
     {

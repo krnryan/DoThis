@@ -31,7 +31,7 @@ if(isset($_POST['email_email']) AND isset($_POST['email_msg']) AND isset($_POST[
                         <div>
                         <h1 style='text-align: center; font-family: Amatic SC; font-size: 60px; margin: 20px; color: black;'>Hello, there!</h1>
                         <h2 style='text-align: center; font-family: Amatic SC; font-size: 30px; margin: 20px; color: black;'>".$firstname." wants you to join his/her project to work together!</h2><br>
-                        <h2 style='text-align: center; font-family: Amatic SC; font-size: 30px; margin: 20px; color: black;'>''".$body."''</h2><br>
+                        <h2 style='text-align: center; font-family: Amatic SC; font-size: 30px; margin: 20px; color: black;'><q>".$body."</q></h2><br>
 
                         <a style='text-decoration: none; color: white;' href='http://dothis.ryanmingyuchoi.com/invite.php?email=".$to."&id=".$invt_num."'><div style='background-color: #F3C100; height: 40px; border-radius: 5px;'><h2 style='text-align: center; font-family: Amatic SC; font-size: 30px; margin: 10px;'>Accept</h2></div></a>
                     </div>

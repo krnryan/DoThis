@@ -47,6 +47,28 @@ function get_proj($id = NULL)
     return $projects;
 }
 
+function get_users_eachproj($id)
+{
+    $select_query = 'SELECT u.*
+                      FROM ' . TBL_USERS . ' u';
+
+    $select_query .= ' JOIN ' . TBL_USER_PROJ . ' upm
+                    ON upm.`user_id` = u.`user_id`';
+
+    $select_query .= ' WHERE upm.`project_id`=' . (int)$id;
+
+    
+    $result = mysql_query($select_query);
+
+    $users = array();
+    while ($row = mysql_fetch_assoc($result))
+    {
+        $users[] = $row;
+    }
+
+    return $users;
+}
+
 function confirm_project($proj_id, $session_id)
 {
     $select_query = 'SELECT *

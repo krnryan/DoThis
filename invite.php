@@ -2,6 +2,7 @@
 require_once 'backend/proj_functions.php';
 require_once 'backend/user_functions.php';
 require_once 'backend/invite_function.php';
+    logout_session();
 
     if (isset($_GET["id"]) && !empty($_GET["id"]) && isset($_GET["email"])) {
             $invite_id = $_GET["id"];
@@ -22,6 +23,13 @@ require_once 'backend/invite_function.php';
         $project_title = $invt_info['title'];
     }
 
+	if(isset($_FILES['picture'])){
+		$picture = '';
+		if(isset($_FILES['picture']) AND $_FILES['picture']['error'] == 0) {
+            $time = round(time()/100);
+	        move_uploaded_file($_FILES['picture']['tmp_name'], $_SERVER['DOCUMENT_ROOT'].'/img/profile/'.$time.$_FILES['picture']['name']);
+    	}
+	}
 ?>
 
 <!DOCTYPE html>
@@ -38,59 +46,7 @@ require_once 'backend/invite_function.php';
     <body>
         <nav class="navbar navbar-default navbar-fixed-top">
 	        <div class="container">
-	            <div class="navbar-header page-scroll">
-	                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-	                    <span class="sr-only">Toggle navigation</span>
-	                    <span class="icon-bar"></span>
-	                    <span class="icon-bar"></span>
-	                    <span class="icon-bar"></span>
-	                </button>
 	                <a class="navbar-brand" href="http://dothis.ryanmingyuchoi.com"><div id="brand"></div>Do This</a>
-                    <div id="text-center" class="navbar-right"><p>
-                        <?php if (!isset($_SESSION['user'])){
-                                    echo ('Login here');
-                                } else {
-                                    echo ('Logout here');
-                                }
-                        ?>
-                    <i class="fa fa-share fa-sm"></i></p></div>
-	            </div>
-                
-	            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-	                <ul class="nav navbar-nav navbar-right">
-	                    <li class="page-scroll">
-	                        <a href="http://dothis.ryanmingyuchoi.com#about">What is do this</a>
-	                    </li>
-	                    <li class="page-scroll">
-	                        <a href="http://dothis.ryanmingyuchoi.com#features">Features</a>
-	                    </li>
-	                    <li class="page-scroll">
-	                        <a href="http://dothis.ryanmingyuchoi.com#register">Register</a>
-	                    </li>
-	                    <li class="page-scroll">
-	                        <a href="http://dothis.ryanmingyuchoi.com#contact">Contact us</a>
-	                    </li>
-	                </ul>
-                    <div id="nav-hidden" class="nav navbar-nav navbar-right">
-                        <hr>
-                        <form role="form" method="post">
-                            <div class="form-group">
-                                <?php 
-                                if (!isset($_SESSION['user'])){
-                                    echo ('<h1>Let&apos;s do this!</h1>
-                                    <input type="text" class="form-control" name="username" placeholder="Username" />
-                                    <input type="password" class="form-control" name="password" placeholder="Password" />
-                                    <button class="btn btn-default" type="submit">Login</button>');
-                                } else {
-                                    echo ('<button id="logout_collapse" class="btn btn-default">Logout</button>
-                                    <h2>OR</h2>
-                                    <button id="to_dashboard_collapse" class="btn btn-default">Back to dashboard</button>');
-                                }
-                                ?>
-                            </div>
-                        </form>
-	                </div>
-	            </div>
 	        </div>
 	    </nav>
         
@@ -98,6 +54,30 @@ require_once 'backend/invite_function.php';
             <div class="block">
                 <div class="centered">
                     <div id="choice">
+                        
+                        <?php
+                        if(isset($_POST['username']) AND isset($_POST['password'])) {
+                            $result = login_user($_POST['username'], $_POST['password']);
+                            if(is_array($result)) {
+                                 if($_SESSION['user']['email'] == $invite_email) {
+                                    add_user_proj($project_id, $_SESSION['user']['user_id']);
+                                    delete_invitation($invite_id);
+                                    header('Location: dashboard.php');
+                                } else {
+                                echo ('<div id="login_alert" class="alert alert-danger" role="alert">
+                                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                                        <span class="sr-only">Error:</span> Email does not match!</div>');
+                                    false;
+                                }
+                            } else {
+                                echo ('<div id="login_alert" class="alert alert-danger" role="alert">
+                                    <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                                    <span class="sr-only">Error:</span> Please check your Username and/or password!</div>');
+                                false;
+                            }
+                        }
+                        ?>
+                        
                         <h1 class="text-center">Welcome to</h1>
                         <img class="img-responsive" alt="Responsive image" src="img/logo_sm_dothis.png"/>
                         <h1 class="text-center">You are invited to join project<br>
@@ -107,18 +87,48 @@ require_once 'backend/invite_function.php';
                         </div>
                     </div>
                     <div id="form-section">
-                        <form id="reg-form" class="navbar-form text-center" style="display: none" method="post">
+                        <?php
+                        if(unique_check(email, $invite_email) == FALSE) {
+                        echo ('
+                        <form id="am-reg-form" class="navbar-form text-center" style="display: none" method="post">
                             <h1 class="centering">You are about to join project<br>
-                                <span style="font-size: 2em"><?php echo $project_title ?></span></h1>
-                            <h1 id="message" class="centering">Let's Do This!</h1>
-                                <input type="text" class="form-control" id="firstname" placeholder="First name"><br>
-                                <input type="text" class="form-control" id="lastname" placeholder="Last name"><br>
-                                <input type="text" class="form-control" id="username" placeholder="Username"><br>
-                                <input type="password" class="form-control" id="password" placeholder="Password"><br>
-                                <input type="email" class="form-control" id="email" placeholder="Email" value="<?php echo $invite_email ?>" readonly><br>
+                                <span style="font-size: 2em">'.$project_title.'</span></h1>
+                            <h1 id="message" class="centering">We found you as a registered user!</h1>
+                                <input type="text" class="form-control" name="username" placeholder="Username"><br>
+                                <input type="password" class="form-control" name="password" placeholder="Password"><br>
+                                <input type="email" class="form-control" id="email" placeholder="Email" value="'.$invite_email.'" readonly><br>
                             
-                            <button type="submit" class="btn btn-default">JOIN</button>
+                            <button type="submit" class="btn btn-default">LOGIN</button>
                         </form>
+                        ');
+                        } else {
+                        echo ('
+                        <div id="big-form" style="display: none">
+                            <div id="form-section">
+                                <h1 class="centering">You are about to join project<br>
+                                    <span style="font-size: 2em">'.$project_title.'</span></h1>
+                                <h1 id="message" class="centering">Let&apos;s Do This!</h1>
+                                <form method="post" class="navbar-form text-center" enctype="multipart/form-data">
+                                    <div class="centered">
+                                        <label style="font-size: 1.5em">Profile picture</label>
+                                        <input type="file" name="picture" class="centering custom-file-input">
+                                        <button id="upload" type="submit" class="btn btn-default" style="display: none">upload</button>
+                                    </div>
+                                </form>
+                                <form id="reg-form" class="navbar-form text-center" method="post">
+                                        <input type="text" class="form-control" id="firstname" placeholder="First name"><br>
+                                        <input type="text" class="form-control" id="lastname" placeholder="Last name"><br>
+                                        <input type="text" class="form-control" id="username" placeholder="Username"><br>
+                                        <input type="password" class="form-control" id="password" placeholder="Password"><br>
+                                        <input type="email" class="form-control" id="email" value="'.$invite_email.'" readonly><br>
+
+                                    <button type="submit" class="btn btn-default">Create</button>
+                                </form>
+                            </div>
+                        </div>
+                        ');
+                        }
+                        ?>
                     </div>
                 </div>
             </div>
@@ -132,7 +142,8 @@ require_once 'backend/invite_function.php';
                         opacity: 0
                     }, 500, function(){
                         $('#choice').attr('style', 'display: none');
-                        $('#reg-form').attr('style', '');
+                        $('#big-form').attr('style', '');
+                        $('#am-reg-form').attr('style', '');
 				    });
                 });
                 
@@ -194,6 +205,8 @@ require_once 'backend/invite_function.php';
                     var username = $('#username').val();
                     var password = $('#password').val();
                     var email = $('#email').val();
+                    var timestamp = Math.round(new Date().getTime() / 100000);
+                    var filename = $('input[name=picture]').val().replace(/(c:\\)*fakepath\\/i, timestamp);
 
                     if (!patt_firstname.test(firstname)){
                         $('#message').html('Please fill out your firstname');
@@ -241,7 +254,7 @@ require_once 'backend/invite_function.php';
                     } else {
                         $('#message').html('Let&apos;s Do This!');
                     }
-                    
+                                        
                     //AJAX call
                     var data = {
                         'user_firstname': firstname,
@@ -250,19 +263,21 @@ require_once 'backend/invite_function.php';
                         'user_password': password,
                         'user_email': email,
                         'project_id': <?php echo $project_id ?>,
+                        'user_profile_pic': filename,
                     }
-
+                    
                     $.post('ajax/registration.php', data, 
                         function(response){
                             if (response == 1) {
-                                $('#form-section').html('').html('<h1>Registering YOU</h1><i class="fa fa-spinner fa-spin fa-5x"></i>').animate({
-                                    opacity: 1
-                                }, 2000, function(){
-                                    $('#reg-form').each(function(){
+                                $('#upload').trigger('click');
+                                $('#reg-form').each(function(){
                                         this.reset();
-                                    });
+                                });
+                                $('#big-form').html('').html('<h1>Registering YOU</h1><i class="fa fa-spinner fa-spin fa-5x"></i>').animate({
+                                    opacity: 1
+                                }, 500, function(){
                                     var data = {
-                                        'invitation_id': '<?php echo $_GET["id"] ?>',
+                                        'invitation_id': '<?php echo $invite_id ?>',
                                     }
 
                                     $.post('ajax/invitation_delete.php', data, 
@@ -280,10 +295,21 @@ require_once 'backend/invite_function.php';
                             }
                         }
                     );
-
                     return false;
                 });
             });
     </script>
     </body>
 </html>
+
+                        <form id="reg-form" class="navbar-form text-center" style="display: none" method="post">
+                            <h1 class="centering">You are about to join project<br>
+                                <span style="font-size: 2em">'.$project_title.'</span></h1>
+                            <h1 id="message" class="centering">Let&apos;s Do This!</h1>
+                                <input type="text" class="form-control" id="firstname" placeholder="First name"><br>
+                                <input type="text" class="form-control" id="lastname" placeholder="Last name"><br>
+                                <input type="text" class="form-control" id="username" placeholder="Username"><br>
+                                <input type="password" class="form-control" id="password" placeholder="Password"><br>
+                                <input type="email" class="form-control" id="email" placeholder="Email" value="'.$invite_email.'" readonly><br>
+                            <button type="submit" class="btn btn-default">JOIN</button>
+                        </form>

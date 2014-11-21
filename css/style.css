@@ -147,7 +147,7 @@ span.quote {
     font-size: 1.5em;
 }
 
-#reg-form input {
+#reg-form input, #am-reg-form input {
     width: 200px;
 }
 
@@ -178,15 +178,6 @@ span.quote {
     padding: 0;
 }
 
-#new_project {
-    height: auto;
-    background-color: #F3C100;
-    border-radius: 10px;
-    text-align: center;
-    float: left;
-    padding: 30px;
-}
-
 .cursor {
     cursor: pointer;
 }
@@ -211,10 +202,79 @@ span.quote {
 
 .img-responsive {
     display: inline;
+    width: 70%;
+    height: 70%;
 }
 
 .close {
     font-size: 4em;
     position: relative;
     right: 20px;
+}
+
+.alert {
+    font-size: 1.3em;
+    margin: 0;
+    padding: 5px;
+}
+
+.custom-file-input::-webkit-file-upload-button {
+    display: none;
+}
+
+.custom-file-input::before {
+    content: 'Upload picture';
+    display: inline-block;
+    color: black;
+    background: -webkit-linear-gradient(top, #f9f9f9, #e3e3e3);
+    border: 1px solid #999;
+    border-radius: 3px;
+    padding: 5px 8px;
+    outline: none;
+    cursor: pointer;
+    text-shadow: 1px 1px #fff;
+    font-weight: 700;
+    font-size: 1.5em;
+    width: 100%;
+    text-align: center;
+}
+
+#project-panel {
+    width: 20%;
+    height: 100%;
+    float: left;
+    overflow-y: hidden;
+    background-color: #F3C100;
+    box-shadow: 2px 2px rgba(0, 0, 0, 0.1);
+}
+
+#task-panel {
+    width: auto;
+    height: 100%;
+    float: left;
+    overflow-y: hidden;
+    padding-top: 60px;
+}
+
+#worker-panel {
+    width: 200px;
+    height: 100px;
+    box-shadow: 2px 2px rgba(0, 0, 0, 0.1);
+    background-color: #e7e7e7;
+    border-radius: 10px;
+    margin: 10px;
+}
+
+#worker-panel-left {
+    width: 40%;
+    height: 100%;
+    padding: 0;
+    text-align: center;
+}
+
+.fit {
+    width: auto;
+    height: auto;
+    padding: 10px;
+    
 }

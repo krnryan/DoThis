@@ -9,10 +9,13 @@ if (isset($_GET["id"]) && !empty($_GET["id"])) {
 	} else {
 		die("No page specified!");
 	}
+    
+    $current_user = $_SESSION['user']['user_id'];
 
 	$project = get_proj($proj_id);
-    $project_confirm = confirm_project($proj_id, $_SESSION['user']['user_id']);
-    $users = get_user($_SESSION['user']['user_id']);
+    $project_confirm = confirm_project($proj_id, $current_user);
+    $users = get_user($current_user);
+    $user_infos = get_users_eachproj($proj_id);
 
     foreach($users as $user) {
         $firstname = $user['firstname'];
@@ -22,6 +25,7 @@ if (isset($_GET["id"]) && !empty($_GET["id"])) {
         $proj_title_col = $proj['title'];
         $proj_desc_col = $proj['description'];
         $proj_ts_col = $proj['created_ts'];
+        $proj_admin = $proj['admin_id'];
     }
 
     if(empty($project_confirm)) {
@@ -65,16 +69,16 @@ if (isset($_GET["id"]) && !empty($_GET["id"])) {
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar-right">
                 <li class="page-scroll">
-                <a href="#about">What is do this</a>
+                <a href="index.php#about">What is do this</a>
                 </li>
                 <li class="page-scroll">
-                <a href="#features">Features</a>
+                <a href="index.php#features">Features</a>
                 </li>
                 <li class="page-scroll">
-                <a href="#register">Register</a>
+                <a href="index.php#register">Register</a>
                 </li>
                 <li class="page-scroll">
-                <a href="#contact">Contact us</a>
+                <a href="index.php#contact">Contact us</a>
                 </li>
                 </ul>
                     <div id="nav-hidden" class="nav navbar-nav navbar-right">
@@ -99,20 +103,46 @@ if (isset($_GET["id"]) && !empty($_GET["id"])) {
                 </div>
             </div>
         </nav>
-
-        <div id="general" class="container">
-            <div class="row">
-                <div class="col-md-3">
-                    <button id="to_dashboard" type="button" class="btn btn-default col-md-12" onclick="location: dashboard.php"><span class="glyphicon glyphicon-hand-left"></span> Back to Dashboard</button>
-                    <div id="new_project" class="col-md-12">
+        
+        <div id="project-panel">
+            <div class="block">
+                <div class="centered">
+                    <button id="to_dashboard" type="button" class="btn btn-default" onclick="location: dashboard.php"><span class="glyphicon glyphicon-hand-left"></span> Back to Dashboard</button>
+                    <div id="new_project">
                         <span id="briefcase" class="glyphicon glyphicon-briefcase"></span>
                         <h1>Project <?php echo $proj_title_col ?></h1><hr>
                         <h3><?php echo $proj_desc_col ?></h3>
-                        <button type="submit" class="btn btn-default" style="display: none">Save changes</button>
                     </div>
-                    <button id="setting" type="button" class="btn btn-default col-md-12" data-container="body" data-toggle="popover" data-placement="bottom" data-content=""><span class="glyphicon glyphicon-cog"></span> SETTING</button>
+                    <?php
+                    if($proj_admin == $current_user){
+                        echo ('<button id="setting" type="button" class="btn btn-default" data-container="body" data-toggle="popover" data-placement="bottom" data-content=""><span class="glyphicon glyphicon-cog"></span> SETTING</button>');
+                    }
+                    ?>
                 </div>
             </div>
+        </div>
+        <div id="task-panel">
+        <?php
+        foreach($user_infos as $user_info) {
+        echo ('
+            <div id="worker-panel">
+                <div id="worker-panel-left">
+                    <div class="fit">
+                        <span style="font-size: 1.2em">'.$user_info['firstname'].'</span>
+                        ');
+                            if ($user_info['picture'] == ''){
+                                echo ('<br><i class="fa fa-user fa-4x"></i>');
+                            } else {
+                                echo ('<i class="fa-stack fa-3x"><img class="fa-stack-1x img-responsive img-circle" src="img/profile/'.$user_info['picture'].'"/>');
+                            }
+                        echo ('
+                        </i>
+                    </div>
+                </div>
+            </div>
+        ');
+        }
+        ?>
         </div>
         
     <div id="setting_options" class="popover">
@@ -192,7 +222,7 @@ $(function(){
     $('#setting').popover({
         html: true,
         trigger: "click",
-        placement: "bottom",
+        placement: "right",
         title: "<h2>Options</h2>",
         content: function() {
             return $('#setting_options').html();

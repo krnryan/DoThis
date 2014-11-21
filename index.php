@@ -1,4 +1,15 @@
-<?php require_once 'backend/user_functions.php' ?>
+<?php require_once 'backend/user_functions.php';
+
+	if(isset($_FILES['picture'])){
+		$picture = '';
+		if(isset($_FILES['picture']) AND $_FILES['picture']['error'] == 0) {
+            $time = round(time()/100);
+	        move_uploaded_file($_FILES['picture']['tmp_name'], $_SERVER['DOCUMENT_ROOT'].'/img/profile/'.$time.$_FILES['picture']['name']);
+    	}
+	}
+?>
+
+
 
 <!DOCTYPE html>
 <html>
@@ -44,7 +55,7 @@
 	                        <a href="#register">Register</a>
 	                    </li>
 	                    <li class="page-scroll">
-	                        <a href="#contact">Contact us</a>
+	                        <a href="#contact">Contact</a>
 	                    </li>
 	                </ul>
                     <div id="nav-hidden" class="nav navbar-nav navbar-right">
@@ -86,7 +97,7 @@
                         if(is_array($result)) {
                             header('Location: dashboard.php');
                         } else {
-                            echo ('<div class="alert alert-danger" role="alert">
+                            echo ('<div id="login_alert" class="alert alert-danger" role="alert">
                                 <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
                                 <span class="sr-only">Error:</span> Please check your Username and/or password!</div>');
                             false;
@@ -131,24 +142,33 @@
             <div class="block">
                 <div class="centered">
                     <div id="choice">
-                        <img class="img-responsive" alt="Responsive image" src="img/logo_sm_dothis.png"/>
+                        <img class="img-responsive" alt="responsive image" src="img/logo_sm_dothis.png"/>
                         <h1 class="text-center">I know you are not yet convinced..</h1>
-                        <h1 class="text-center">But the door is opened.</h1>
+                        <h1 class="text-center">But the door is opened for beta trial.</h1>
                         <div id="button-container" class="text-center">
                             <button type="button" id="btn-reg" class="btn btn-danger btn-lg">REGISTER</button>
                         </div>
                     </div>
-                    <div id="form-section">
-                        <form id="reg-form" class="navbar-form text-center" style="display: none" method="post">
+                    <div id="big-form">
+                        <div id="form-section" style="display: none">
                             <h1 id="message" class="centering">Let's Do This!</h1>
-                                <input type="text" class="form-control" id="firstname" placeholder="First name"><br>
-                                <input type="text" class="form-control" id="lastname" placeholder="Last name"><br>
-                                <input type="text" class="form-control" id="username" placeholder="Username"><br>
-                                <input type="password" class="form-control" id="password" placeholder="Password"><br>
-                                <input type="email" class="form-control" id="email" placeholder="Email"><br>
-                            
-                            <button type="submit" class="btn btn-default">Create</button>
-                        </form>
+                            <form method="post" class="navbar-form text-center" enctype="multipart/form-data">
+                                <div class="centered">
+                                    <label style="font-size: 1.5em">Profile picture</label>
+                                    <input type="file" name="picture" class="centering custom-file-input">
+                                    <button id="upload" type="submit" class="btn btn-default" style="display: none">upload</button>
+                                </div>
+                            </form>
+                            <form id="reg-form" class="navbar-form text-center" method="post">
+                                    <input type="text" class="form-control" id="firstname" placeholder="First name"><br>
+                                    <input type="text" class="form-control" id="lastname" placeholder="Last name"><br>
+                                    <input type="text" class="form-control" id="username" placeholder="Username"><br>
+                                    <input type="password" class="form-control" id="password" placeholder="Password"><br>
+                                    <input type="email" class="form-control" id="email" placeholder="Email"><br>
+
+                                <button type="submit" class="btn btn-default">Create</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -157,11 +177,11 @@
 		<div id="contact" class="container scrollpoint">
             <div class="block">
                 <div class="centered">
-                    <h1 class="text-center" style="font-size: 5em">Ryan Mingyu Choi</h1>
+                    <h1 class="text-center" style="font-size: 4em; color: #F3C100;">Ryan Mingyu Choi</h1>
                     <h1 class="text-center">Junior full-stack web developer</h1>
                     <h1 class="text-center">HTML5, CSS3, Bootstrap, Javascript, jQuery, PHP, mySQL, Git, GitHub, Photoshop</h1>
                     <h1 class="text-center">(Currently looking for an opportunities)</h1>
-                    <button id="say_hi" type="submit" class="btn btn-default" style="font-size: 3em">Say "Hello"</button>
+                    <button id="say_hi" type="submit" class="btn btn-default" style="font-size: 3em"><i class="fa fa-comment"></i><br/>Say "Hello"</button>
                 </div>
             </div>
         </div>
@@ -201,7 +221,7 @@
                         opacity: 0
                     }, 500, function(){
                         $('#choice').attr('style', 'display: none');
-                        $('#reg-form').attr('style', '');
+                        $('#form-section').attr('style', '');
 				    });
                 });
                 
@@ -263,6 +283,8 @@
                     var username = $('#username').val();
                     var password = $('#password').val();
                     var email = $('#email').val();
+                    var timestamp = Math.round(new Date().getTime() / 100000);
+                    var filename = $('input[name=picture]').val().replace(/(c:\\)*fakepath\\/i, timestamp);
 
                     if (!patt_firstname.test(firstname)){
                         $('#message').html('Please fill out your firstname');
@@ -310,20 +332,22 @@
                     } else {
                         $('#message').html('Let&apos;s Do This!');
                     }
-                    
+                                        
                     //AJAX call
                     var data = {
                         'user_firstname': firstname,
                         'user_lastname': lastname,
                         'user_id': username,
                         'user_password': password,
-                        'user_email': email
+                        'user_email': email,
+                        'user_profile_pic': filename,
                     }
 
                     $.post('ajax/registration.php', data, 
                         function(response){
                             if (response == 1) {
-                                $('#form-section').html('').html('<h1>Registering YOU</h1><i class="fa fa-spinner fa-spin fa-5x"></i>').animate({
+                                $('#upload').trigger('click');
+                                $('#big-form').html('').html('<h1>Registering YOU</h1><i class="fa fa-spinner fa-spin fa-5x"></i>').animate({
                                     opacity: 1
                                 }, 2000, function(){
                                     $('#reg-form').each(function(){
@@ -331,7 +355,6 @@
                                     });
                                     location.href="dashboard.php";
                                 });
-
                             } else {
                                 $('#message').html('Something went wrong :<');
                             }
